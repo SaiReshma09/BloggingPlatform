@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
@@ -24,11 +24,10 @@ const sections = [
 const defaultTheme = createTheme();
 
 const CreatePost = () => {
-  const { sectionId } = useParams(); // Retrieve sectionId from the URL
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: '',
-    topic: sectionId, // Set the initial value of topic to the sectionId
+    topic: '',
     content: ''
   });
 
