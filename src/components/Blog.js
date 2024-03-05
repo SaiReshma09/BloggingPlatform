@@ -17,16 +17,17 @@ import post2 from './blog-post.2.md';
 import post3 from './blog-post.3.md';
 
 const sections = [
-  { title: 'Technology', url: '#' },
-  { title: 'Design', url: '#' },
+  { title: 'Academic Resources', url: '#' },
+  { title: 'Career Services', url: '#' },
+  { title: 'Campus', url: '#' },
   { title: 'Culture', url: '#' },
-  { title: 'Business', url: '#' },
-  { title: 'Politics', url: '#' },
-  { title: 'Opinion', url: '#' },
-  { title: 'Science', url: '#' },
-  { title: 'Health', url: '#' },
-  { title: 'Style', url: '#' },
+  { title: 'Local Community Resources', url: '#' },
+  { title: 'Social', url: '#' },
+  { title: 'Sports', url: '#' },
+  { title: 'Health and Wellness', url: '#' },
+  { title: 'Technology', url: '#' },
   { title: 'Travel', url: '#' },
+  { title: 'Alumni', url: '#' },
 ];
 
 const mainFeaturedPost = {
