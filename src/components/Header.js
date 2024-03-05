@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { Link } from 'react-router-dom';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
@@ -9,9 +9,7 @@ import Typography from '@mui/material/Typography';
 
 function Header(props) {
   const { sections, title } = props;
-  const navigate = useNavigate(); // Hook for navigation
 
-  // Custom onClick handler to prevent default and use passed onClick
   const handleSectionClick = (event, onClick) => {
     event.preventDefault();
     if (onClick) {
@@ -19,32 +17,33 @@ function Header(props) {
     }
   };
 
-  // Add this function for Home button navigation
-  const navigateHome = () => {
-    navigate('/');
-  };
-
   return (
     <React.Fragment>
-      <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Button size="small" onClick={navigateHome}>Home</Button> {/* Home button added here */}
-        <Button size="small">Subscribe</Button>
-        <Typography
-          component="h2"
-          variant="h5"
-          color="inherit"
-          align="center"
-          noWrap
-          sx={{ flex: 1 }}
-        >
-          {title}
-        </Typography>
-        <IconButton>
-          <SearchIcon />
-        </IconButton>
-        <Button variant="outlined" size="small">
-          Sign up
-        </Button>
+      <Toolbar sx={{ borderBottom: 1, borderColor: 'divider', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div>
+          <Button component={Link} to="/" size="small">Home</Button> {/* Home button */}
+          <Button size="small">Subscribe</Button>
+        </div>
+        <div>
+          <Typography
+            component="h2"
+            variant="h5"
+            color="inherit"
+            align="center"
+            noWrap
+            sx={{ flex: 1 }}
+          >
+            {title}
+          </Typography>
+        </div>
+        <div>
+          <IconButton>
+            <SearchIcon />
+          </IconButton>
+          <Button variant="outlined" size="small">
+            Sign up
+          </Button>
+        </div>
       </Toolbar>
       <Toolbar
         component="nav"
@@ -60,6 +59,11 @@ function Header(props) {
             {section.title}
           </Button>
         ))}
+      </Toolbar>
+      <Toolbar
+        sx={{ justifyContent: 'flex-end', paddingRight: '24px' }}
+      >
+        <Button component={Link} to="/create-post/:sectionId" variant="outlined" size="small">Create</Button> {/* Create button */}
       </Toolbar>
     </React.Fragment>
   );

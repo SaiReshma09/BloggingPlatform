@@ -1,9 +1,9 @@
 import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import Header from './Header'; // Make sure this path matches where your Header component is located
+import { Link, useParams, useNavigate } from 'react-router-dom'; // Import Link for navigation
+import Header from './Header';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
-import { Button } from '@mui/material'; // Import Button for the Home button
+import { Button } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Footer from './Footer';
 
@@ -32,7 +32,11 @@ const ViewPostGrid = () => {
   };
 
   const navigateHome = () => {
-    navigate('/'); // Navigate to home route
+    navigate('/');
+  };
+
+  const navigateToCreatePost = (id) => {
+    navigate(`/create-post/${id}`);
   };
 
   return (
@@ -45,9 +49,11 @@ const ViewPostGrid = () => {
             ...section,
             onClick: () => handleSectionClick(section.id),
           }))}
-          // Assuming Header can accept additional components or JSX
           extra={
-            <Button color="inherit" onClick={navigateHome}>Home</Button>
+            <>
+              <Button color="inherit" onClick={navigateHome}>Home</Button>
+              <Button color="inherit" onClick={navigateToCreatePost}>Create</Button>
+            </>
           }
         />
         <main>
