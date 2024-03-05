@@ -1,5 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
@@ -8,6 +9,7 @@ import Typography from '@mui/material/Typography';
 
 function Header(props) {
   const { sections, title } = props;
+  const navigate = useNavigate(); // Hook for navigation
 
   // Custom onClick handler to prevent default and use passed onClick
   const handleSectionClick = (event, onClick) => {
@@ -17,9 +19,15 @@ function Header(props) {
     }
   };
 
+  // Add this function for Home button navigation
+  const navigateHome = () => {
+    navigate('/');
+  };
+
   return (
     <React.Fragment>
       <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Button size="small" onClick={navigateHome}>Home</Button> {/* Home button added here */}
         <Button size="small">Subscribe</Button>
         <Typography
           component="h2"
@@ -44,7 +52,6 @@ function Header(props) {
         sx={{ justifyContent: 'space-between', overflowX: 'auto' }}
       >
         {sections.map((section) => (
-          // Updated to use button instead of Link for handling onClick
           <Button
             key={section.title}
             onClick={(event) => handleSectionClick(event, section.onClick)}
@@ -62,8 +69,8 @@ Header.propTypes = {
   sections: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,
-      url: PropTypes.string, // url is no longer required
-      onClick: PropTypes.func, // onClick function
+      url: PropTypes.string,
+      onClick: PropTypes.func,
     }),
   ).isRequired,
   title: PropTypes.string.isRequired,
