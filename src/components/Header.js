@@ -5,10 +5,17 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
 
 function Header(props) {
   const { sections, title } = props;
+
+  // Custom onClick handler to prevent default and use passed onClick
+  const handleSectionClick = (event, onClick) => {
+    event.preventDefault();
+    if (onClick) {
+      onClick();
+    }
+  };
 
   return (
     <React.Fragment>
@@ -37,16 +44,14 @@ function Header(props) {
         sx={{ justifyContent: 'space-between', overflowX: 'auto' }}
       >
         {sections.map((section) => (
-          <Link
-            color="inherit"
-            noWrap
+          // Updated to use button instead of Link for handling onClick
+          <Button
             key={section.title}
-            variant="body2"
-            href={section.url}
-            sx={{ p: 1, flexShrink: 0 }}
+            onClick={(event) => handleSectionClick(event, section.onClick)}
+            sx={{ p: 1, flexShrink: 0, color: 'inherit', display: 'block' }}
           >
             {section.title}
-          </Link>
+          </Button>
         ))}
       </Toolbar>
     </React.Fragment>
@@ -57,7 +62,8 @@ Header.propTypes = {
   sections: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired,
+      url: PropTypes.string, // url is no longer required
+      onClick: PropTypes.func, // onClick function
     }),
   ).isRequired,
   title: PropTypes.string.isRequired,

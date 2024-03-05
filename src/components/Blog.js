@@ -2,6 +2,7 @@ import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
+import { useNavigate } from 'react-router-dom';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import XIcon from '@mui/icons-material/X';
@@ -16,18 +17,19 @@ import post1 from './blog-post.1.md';
 import post2 from './blog-post.2.md';
 import post3 from './blog-post.3.md';
 
+// Updated sections array to include an 'id' for each section
 const sections = [
-  { title: 'Academic Resources', url: '#' },
-  { title: 'Career Services', url: '#' },
-  { title: 'Campus', url: '#' },
-  { title: 'Culture', url: '#' },
-  { title: 'Local Community Resources', url: '#' },
-  { title: 'Social', url: '#' },
-  { title: 'Sports', url: '#' },
-  { title: 'Health and Wellness', url: '#' },
-  { title: 'Technology', url: '#' },
-  { title: 'Travel', url: '#' },
-  { title: 'Alumni', url: '#' },
+  { title: 'Academic Resources', id: 'academic-resources' },
+  { title: 'Career Services', id: 'career-services' },
+  { title: 'Campus', id: 'campus' },
+  { title: 'Culture', id: 'culture' },
+  { title: 'Local Community Resources', id: 'local-community-resources' },
+  { title: 'Social', id: 'social' },
+  { title: 'Sports', id: 'sports' },
+  { title: 'Health and Wellness', id: 'health-and-wellness' },
+  { title: 'Technology', id: 'technology' },
+  { title: 'Travel', id: 'travel' },
+  { title: 'Alumni', id: 'alumni' },
 ];
 
 const mainFeaturedPost = {
@@ -84,15 +86,27 @@ const sidebar = {
   ],
 };
 
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function Blog() {
+  const navigate = useNavigate();
+
+  // Updated to navigate to dynamic route based on the section id
+  const handleSectionClick = (id) => {
+    navigate(`/view-post-grid/${id}`);
+  };
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
       <Container maxWidth="lg">
-        <Header title="Blog" sections={sections} />
+        <Header
+          title="Blog"
+          sections={sections.map((section) => ({
+            ...section,
+            onClick: () => handleSectionClick(section.id),
+          }))}
+        />
         <main>
           <MainFeaturedPost post={mainFeaturedPost} />
           <Grid container spacing={4}>
