@@ -6,6 +6,7 @@ import Container from '@mui/material/Container';
 import { Button } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Footer from './Footer';
+import Content from './Content';
 
 const sections = [
   { title: 'Academic Resources', id: 'academic-resources' },
@@ -26,8 +27,27 @@ const defaultTheme = createTheme();
 const ViewPostGrid = () => {
   const { sectionId } = useParams();
   const navigate = useNavigate();
-  const [postContent, setPostContent] = useState('');
+  const [postContent, setPostContent] = useState([]);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    // Fetch posts based on sectionId
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch('/data.json'); // Relative path to data.json
+        if (!response.ok) {
+          throw new Error('data.json not found');
+        }
+        const jsonData = await response.json();
+        const posts = jsonData.posts.filter(post => post.topic === sectionId);
+        setPostContent(posts);
+      } catch (error) {
+        setError(error);
+      }
+    };
+
+    fetchPosts();
+  }, [sectionId]);
 
   const handleSectionClick = (id) => {
     navigate(`/view-post-grid/${id}`);
@@ -59,7 +79,7 @@ const ViewPostGrid = () => {
           }
         />
         <main>
-          
+          <Content posts={postContent} />
         </main>
       </Container>
       <Footer

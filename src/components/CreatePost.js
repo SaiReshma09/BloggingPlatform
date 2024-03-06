@@ -43,29 +43,63 @@ const CreatePost = () => {
     setFormData({ ...formData, content });
   };
 
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
+
+
+
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    console.log(formData,"Details")
     const { title, topic, content, author } = formData;
-    const postData = {
-      id: Date.now(),
-      title,
-      content,
-      author,
-    };
+    // const postData = {
+    //   title,
+    //   topic,
+    //   content,
+    //   author,
+    // };
     
-    // Retrieve existing data from localStorage
-    let existingData = localStorage.getItem(topic);
-    existingData = existingData ? JSON.parse(existingData) : [];
+    const response = await fetch('http://localhost:3001/posts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ title, topic, content, author }),
+    });
 
-    // Append new post data
-    existingData.push(postData);
-
-    // Save updated data back to localStorage
-    localStorage.setItem(topic, JSON.stringify(existingData));
-
-    console.log('Data saved successfully');
+    if (response.ok) {
+      console.log('Post added successfully');
+      // Optionally update UI or reset form fields
+    } else {
+      console.error('Failed to add post');
+    }
     navigate('/');
   };
+
+
+
+  // const handleFormSubmit = (event) => {
+  //   event.preventDefault();
+  //   const { title, topic, content, author } = formData;
+  //   const postData = {
+  //     id: Date.now(),
+  //     title,
+  //     content,
+  //     author,
+  //   };
+    
+  //   // Retrieve existing data from localStorage
+  //   let existingData = localStorage.getItem(topic);
+  //   existingData = existingData ? JSON.parse(existingData) : [];
+
+  //   // Append new post data
+  //   existingData.push(postData);
+
+  //   // Save updated data back to localStorage
+  //   localStorage.setItem(topic, JSON.stringify(existingData));
+
+  //   console.log('Data saved successfully');
+  //   navigate('/');
+  // };
 
   const navigateHome = () => {
     navigate('/');
@@ -103,8 +137,11 @@ const CreatePost = () => {
         />
         <main>
           <div style={formStyle}>
-            <form onSubmit={handleFormSubmit}>
+            <form 
+            onSubmit={handleFormSubmit}
+            >      
               <Typography variant="h4">Create New Post</Typography>
+              
               <TextField
                 name="title"
                 label="Title"
@@ -114,6 +151,7 @@ const CreatePost = () => {
                 margin="normal"
                 required
               />
+
               <FormControl fullWidth margin="normal">
                 <InputLabel id="topic-label">Topic</InputLabel>
                 <Select
@@ -129,6 +167,7 @@ const CreatePost = () => {
                   ))}
                 </Select>
               </FormControl>
+
               <TextField
                 name="author"
                 label="Author"
@@ -138,6 +177,7 @@ const CreatePost = () => {
                 margin="normal"
                 required
               />
+
               <ReactQuill
                 value={formData.content}
                 onChange={handleContentChange}
@@ -146,6 +186,7 @@ const CreatePost = () => {
                 theme="snow"
                 style={editorStyle}
               />
+
               <Button type="submit" variant="contained" color="primary">
                 Create Post
               </Button>
