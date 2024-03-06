@@ -16,7 +16,7 @@ const PostCard = ({ title, content, author }) => {
             backgroundImage: "linear-gradient(to right top, #ffffff, #eef0f6, #d8e3ed, #bfd7e1, #a7cbd0)"
         }}>
             <CardActions style={{ justifyContent: 'space-between' }}>
-                <Typography variant="h2" component="h2">
+                <Typography variant="h" component="h2">
                     {title}
                     Animal
                 </Typography>

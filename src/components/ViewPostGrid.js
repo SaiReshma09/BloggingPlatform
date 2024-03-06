@@ -3,10 +3,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Header from './Header';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
-import { Button } from '@mui/material';
+import { Button, Card, CardContent, CardActions, Typography, IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Footer from './Footer';
-import Content from './Content';
 
 const sections = [
   { title: 'Academic Resources', id: 'academic-resources' },
@@ -31,22 +31,16 @@ const ViewPostGrid = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Fetch posts based on sectionId
-    const fetchPosts = async () => {
-      try {
-        const response = await fetch('/data.json'); // Relative path to data.json
-        if (!response.ok) {
-          throw new Error('data.json not found');
-        }
-        const jsonData = await response.json();
-        const posts = jsonData.posts.filter(post => post.topic === sectionId);
-        setPostContent(posts);
-      } catch (error) {
-        setError(error);
+    const fetchPostsFromLocalStorage = () => {
+      const localStorageData = localStorage.getItem(sectionId); // Get data from local storage based on sectionId
+      if (localStorageData) {
+        setPostContent(JSON.parse(localStorageData)); // Parse JSON data from local storage
+      } else {
+        setError('Data not found in local storage'); // Handle case when data is not found in local storage
       }
     };
 
-    fetchPosts();
+    fetchPostsFromLocalStorage();
   }, [sectionId]);
 
   const handleSectionClick = (id) => {
@@ -59,6 +53,10 @@ const ViewPostGrid = () => {
 
   const navigateToCreatePost = () => {
     navigate('/create-post');
+  };
+
+  const renderContent = (content) => {
+    return { __html: content };
   };
 
   return (
@@ -79,9 +77,26 @@ const ViewPostGrid = () => {
           }
         />
         <main>
-          <Content posts={postContent} />
+          {/* Render post content fetched from local storage */}
+          {postContent.map((post, index) => (
+            <Card key={index} style={{ margin: '20px' }}>
+              <CardContent>
+                <Typography variant="h5" component="h2">
+                  {post.title}
+                </Typography>
+                <Typography variant="body2" component="div" dangerouslySetInnerHTML={renderContent(post.content)}>
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <IconButton aria-label="delete">
+                  <DeleteIcon />
+                </IconButton>
+              </CardActions>
+            </Card>
+          ))}
         </main>
       </Container>
+      
       <Footer
         title="Footer"
         description="Something here to give the footer a purpose!"
