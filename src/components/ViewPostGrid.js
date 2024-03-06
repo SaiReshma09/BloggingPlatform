@@ -26,7 +26,7 @@ const posts = [post1];
 
 const defaultTheme = createTheme();
 
-const ViewPostsList = () => {
+const ViewPostGrid = () => {
   const { sectionId } = useParams();
   const navigate = useNavigate();
   const [postContent, setPostContent] = useState('');
@@ -73,4 +73,4 @@ const ViewPostsList = () => {
   );
 };
 
-export default ViewPostsList;
+export default ViewPostGrid;
