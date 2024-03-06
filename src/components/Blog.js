@@ -90,6 +90,8 @@ const defaultTheme = createTheme();
 
 export default function Blog() {
   const navigate = useNavigate();
+  const users=localStorage.getItem('users')
+  console.log(users)
 
   // Updated to navigate to dynamic route based on the section id
   const handleSectionClick = (id) => {
@@ -107,6 +109,7 @@ export default function Blog() {
             onClick: () => handleSectionClick(section.id),
           }))}
           login={localStorage.getItem('login') === 'true'}
+          user={localStorage.getItem('user')}
         />
         <main>
           <MainFeaturedPost post={mainFeaturedPost} />

@@ -8,7 +8,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import Typography from '@mui/material/Typography';
 
 function Header(props) {
-  const { sections, title, login } = props;
+  const { sections, title, login, user } = props;
+  console.log(user)
 
   const handleSectionClick = (event, onClick) => {
     event.preventDefault();
@@ -42,7 +43,7 @@ function Header(props) {
           </IconButton>
           {login ? (
             <Button component={Link} to="/" variant="outlined" size="small" onClick={() => {localStorage.setItem('login', false);
-            window.location.reload();}}>
+            window.location.reload();localStorage.setItem('user', 'nouser');}}>
               Logout
             </Button>
           ) : (
@@ -73,6 +74,12 @@ function Header(props) {
         {login ? (
             <Button component={Link} to="/create-post/:sectionId" variant="outlined" size="small">
               Create
+            </Button>
+          ) : null}
+          <br/>
+          {user=='admin' ? (
+            <Button component={Link} to="/ManageUsers" variant="outlined" size="small" style={ {marginLeft: '10px'}}>
+              Manage Users
             </Button>
           ) : null}
       </Toolbar>
