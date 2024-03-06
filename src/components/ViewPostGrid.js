@@ -35,8 +35,8 @@ const ViewPostGrid = () => {
     navigate('/');
   };
 
-  const navigateToCreatePost = (id) => {
-    navigate(`/create-post/${id}`);
+  const navigateToCreatePost = () => {
+    navigate('/create-post'); // Navigate to CreatePost route
   };
 
   return (
