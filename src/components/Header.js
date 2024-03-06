@@ -63,7 +63,7 @@ function Header(props) {
       <Toolbar
         sx={{ justifyContent: 'flex-end', paddingRight: '24px' }}
       >
-        <Button component={Link} to="/create-post/:sectionId" variant="outlined" size="small">Create</Button> {/* Create button */}
+        <Button component={Link} to="/create-post/" variant="outlined" size="small">Create</Button> {/* Create button */}
       </Toolbar>
     </React.Fragment>
   );

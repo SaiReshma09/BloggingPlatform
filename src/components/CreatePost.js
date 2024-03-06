@@ -7,7 +7,7 @@ import { Button, FormControl, InputLabel, MenuItem, Select, TextField, Typograph
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Footer from './Footer';
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import 'react-quill/dist/quill.snow.css'; // Import Quill's Snow theme CSS
 
 const sections = [
   { title: 'Academic Resources', id: 'academic-resources' },
@@ -30,7 +30,8 @@ const CreatePost = () => {
   const [formData, setFormData] = useState({
     title: '',
     topic: '',
-    content: ''
+    content: '',
+    author: ''
   });
 
   const handleInputChange = (event) => {
@@ -44,31 +45,26 @@ const CreatePost = () => {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-
-    // Construct a JavaScript object containing the form data
+    const { title, topic, content, author } = formData;
     const postData = {
-      title: formData.title,
-      author: formData.author,
-      topic: formData.topic,
-      content: formData.content
+      id: Date.now(),
+      title,
+      content,
+      author,
     };
+    
+    // Retrieve existing data from localStorage
+    let existingData = localStorage.getItem(topic);
+    existingData = existingData ? JSON.parse(existingData) : [];
 
-    // Convert the JavaScript object to a JSON string
-    const jsonData = JSON.stringify(postData);
+    // Append new post data
+    existingData.push(postData);
 
-    // Create a Blob object containing the JSON string
-    const blob = new Blob([jsonData], { type: 'application/json' });
+    // Save updated data back to localStorage
+    localStorage.setItem(topic, JSON.stringify(existingData));
 
-    // Create a URL for the Blob object
-    const url = URL.createObjectURL(blob);
-
-    // Create a link element and simulate a click to trigger the file download
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `${formData.title}.json`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    console.log('Data saved successfully');
+    navigate('/');
   };
 
   const navigateHome = () => {
@@ -76,8 +72,14 @@ const CreatePost = () => {
   };
 
   const modules = {
-    // Toolbar configuration for ReactQuill
-    // (Omitted for brevity)
+    toolbar: [
+      [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+      [{ 'size': [] }],
+      ['bold', 'italic', 'underline'],
+      [{ 'color': [] }, { 'background': [] }],          
+      [{ 'align': [] }],
+      ['clean'],                                        
+    ],
   };
 
   const editorStyle = {
@@ -112,15 +114,6 @@ const CreatePost = () => {
                 margin="normal"
                 required
               />
-              <TextField
-                name="author"
-                label="Author"
-                fullWidth
-                value={formData.author}
-                onChange={handleInputChange}
-                margin="normal"
-                required
-              />
               <FormControl fullWidth margin="normal">
                 <InputLabel id="topic-label">Topic</InputLabel>
                 <Select
@@ -136,6 +129,15 @@ const CreatePost = () => {
                   ))}
                 </Select>
               </FormControl>
+              <TextField
+                name="author"
+                label="Author"
+                fullWidth
+                value={formData.author}
+                onChange={handleInputChange}
+                margin="normal"
+                required
+              />
               <ReactQuill
                 value={formData.content}
                 onChange={handleContentChange}

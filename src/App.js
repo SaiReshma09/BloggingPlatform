@@ -11,10 +11,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Blog />} />
         <Route path="/view-post-grid/:sectionId" element={<ViewPostGrid />} />
-        <Route path="/create-post/:sectionId" element={<CreatePost />} />
+        <Route path="/create-post" element={<CreatePost />} />
       </Routes>
     </Router>
   );
 }
 
-export default App;
+export default App
