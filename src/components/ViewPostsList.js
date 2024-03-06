@@ -1,11 +1,12 @@
-import React from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom'; // Import Link for navigation
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import Header from './Header';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import { Button } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Footer from './Footer';
+import post1 from '../Topics/Technology/tech-post1.md'
 
 const sections = [
   { title: 'Academic Resources', id: 'academic-resources' },
@@ -21,11 +22,15 @@ const sections = [
   { title: 'Alumni', id: 'alumni' },
 ];
 
+const posts = [post1];
+
 const defaultTheme = createTheme();
 
-const ViewPostGrid = () => {
+const ViewPostsList = () => {
   const { sectionId } = useParams();
   const navigate = useNavigate();
+  const [postContent, setPostContent] = useState('');
+  const [error, setError] = useState(null);
 
   const handleSectionClick = (id) => {
     navigate(`/view-post-grid/${id}`);
@@ -36,7 +41,7 @@ const ViewPostGrid = () => {
   };
 
   const navigateToCreatePost = () => {
-    navigate('/create-post'); // Navigate to CreatePost route
+    navigate('/create-post');
   };
 
   return (
@@ -57,7 +62,7 @@ const ViewPostGrid = () => {
           }
         />
         <main>
-          <h1>Viewing Posts for Section: {sectionId}</h1>
+          title="From the firehose" posts={posts}
         </main>
       </Container>
       <Footer
@@ -68,4 +73,4 @@ const ViewPostGrid = () => {
   );
 };
 
-export default ViewPostGrid;
+export default ViewPostsList;
