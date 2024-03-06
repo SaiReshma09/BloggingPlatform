@@ -106,6 +106,7 @@ export default function Blog() {
             ...section,
             onClick: () => handleSectionClick(section.id),
           }))}
+          login={localStorage.getItem('login') === 'true'}
         />
         <main>
           <MainFeaturedPost post={mainFeaturedPost} />
