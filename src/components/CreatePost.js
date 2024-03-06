@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
-import { Button, TextField, Select, MenuItem, FormControl, InputLabel, Typography } from '@mui/material';
+import { Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Footer from './Footer';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const sections = [
   { title: 'Academic Resources', id: 'academic-resources' },
@@ -36,14 +38,54 @@ const CreatePost = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleContentChange = (content) => {
+    setFormData({ ...formData, content });
+  };
+
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    // Handle form submission here, e.g., submit data to server
-    console.log(formData);
+
+    // Construct a JavaScript object containing the form data
+    const postData = {
+      title: formData.title,
+      author: formData.author,
+      topic: formData.topic,
+      content: formData.content
+    };
+
+    // Convert the JavaScript object to a JSON string
+    const jsonData = JSON.stringify(postData);
+
+    // Create a Blob object containing the JSON string
+    const blob = new Blob([jsonData], { type: 'application/json' });
+
+    // Create a URL for the Blob object
+    const url = URL.createObjectURL(blob);
+
+    // Create a link element and simulate a click to trigger the file download
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${formData.title}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const navigateHome = () => {
     navigate('/');
+  };
+
+  const modules = {
+    // Toolbar configuration for ReactQuill
+    // (Omitted for brevity)
+  };
+
+  const editorStyle = {
+    height: '300px', // Adjust the height as needed
+  };
+
+  const formStyle = {
+    marginBottom: '60px', // Add margin to create gap between editor and button
   };
 
   return (
@@ -58,47 +100,55 @@ const CreatePost = () => {
           }
         />
         <main>
-          <form onSubmit={handleFormSubmit}>
-            <Typography variant="h4">Create New Post</Typography>
-            <TextField
-              name="title"
-              label="Title"
-              fullWidth
-              value={formData.title}
-              onChange={handleInputChange}
-              margin="normal"
-              required
-            />
-            <FormControl fullWidth margin="normal">
-              <InputLabel id="topic-label">Topic</InputLabel>
-              <Select
-                labelId="topic-label"
-                id="topic"
-                name="topic"
-                value={formData.topic}
+          <div style={formStyle}>
+            <form onSubmit={handleFormSubmit}>
+              <Typography variant="h4">Create New Post</Typography>
+              <TextField
+                name="title"
+                label="Title"
+                fullWidth
+                value={formData.title}
                 onChange={handleInputChange}
+                margin="normal"
                 required
-              >
-                {sections.map((section) => (
-                  <MenuItem key={section.id} value={section.id}>{section.title}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <TextField
-              name="content"
-              label="Content"
-              multiline
-              rows={8}
-              fullWidth
-              value={formData.content}
-              onChange={handleInputChange}
-              margin="normal"
-              required
-            />
-            <Button type="submit" variant="contained" color="primary">
-              Create Post
-            </Button>
-          </form>
+              />
+              <TextField
+                name="author"
+                label="Author"
+                fullWidth
+                value={formData.author}
+                onChange={handleInputChange}
+                margin="normal"
+                required
+              />
+              <FormControl fullWidth margin="normal">
+                <InputLabel id="topic-label">Topic</InputLabel>
+                <Select
+                  labelId="topic-label"
+                  id="topic"
+                  name="topic"
+                  value={formData.topic}
+                  onChange={handleInputChange}
+                  required
+                >
+                  {sections.map((section) => (
+                    <MenuItem key={section.id} value={section.id}>{section.title}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <ReactQuill
+                value={formData.content}
+                onChange={handleContentChange}
+                modules={modules}
+                formats={['header', 'font', 'size', 'bold', 'italic', 'underline', 'color', 'background', 'align']}
+                theme="snow"
+                style={editorStyle}
+              />
+              <Button type="submit" variant="contained" color="primary">
+                Create Post
+              </Button>
+            </form>
+          </div>
         </main>
       </Container>
       <Footer

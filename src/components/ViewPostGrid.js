@@ -6,7 +6,6 @@ import Container from '@mui/material/Container';
 import { Button } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Footer from './Footer';
-import post1 from '../Topics/Technology/tech-post1.md'
 
 const sections = [
   { title: 'Academic Resources', id: 'academic-resources' },
@@ -21,8 +20,6 @@ const sections = [
   { title: 'Travel', id: 'travel' },
   { title: 'Alumni', id: 'alumni' },
 ];
-
-const posts = [post1];
 
 const defaultTheme = createTheme();
 
@@ -62,7 +59,7 @@ const ViewPostGrid = () => {
           }
         />
         <main>
-          title="From the firehose" posts={posts}
+          
         </main>
       </Container>
       <Footer
