@@ -28,15 +28,18 @@ function Login() {
     }
     if (username === 'admin' && password === 'root') {
       // If correct, grant access and redirect to blog page
-      localStorage.setItem('login', 'admin');
+      localStorage.setItem('user', 'admin');
+      localStorage.setItem('login', true);
       navigate('/'); // Redirect to the blog page
     } else if (username === 'moderator' && password === 'mpass') {
       // If correct, grant access and redirect to blog page
-      localStorage.setItem('login', 'moderator');
+      localStorage.setItem('user', 'moderator');
+      localStorage.setItem('login', true);
       navigate('/'); // Redirect to the blog page
     } else if (username === 'student' && password === 'spass') {
       // If correct, grant access and redirect to blog page
-      localStorage.setItem('login', 'student');
+      localStorage.setItem('user', 'student');
+      localStorage.setItem('login', true);
       navigate('/'); // Redirect to the blog page
     } else {
       // If incorrect, display error message
