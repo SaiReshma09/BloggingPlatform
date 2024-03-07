@@ -19,12 +19,6 @@ To get started with the College/Department Blogging Platform, follow these steps
    npm install
    ```
 
-   or
-
-   ```bash
-   yarn install
-   ```
-
 2. **Run JSON Server**: Start the JSON server to serve the blog data.
 
    ```bash
