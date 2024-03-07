@@ -64,32 +64,32 @@ const Content = () => {
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
       <Container maxWidth="lg">
-      <Header
-  title="Blog"
-  sections={sections.map((section) => ({
-    ...section,
-    onClick: () => handleSectionClick(section.id),
-  }))}
-  extra={
-    <>
-      <Button color="inherit" onClick={navigateHome}>Home</Button>
-      <Button color="inherit" onClick={navigateToCreatePost}>Create</Button>
-    </>
-  }
-  showDeleteButton={true} // Pass showDeleteButton prop
-  onDelete={handleDeletePost} // Pass onDelete prop with the delete function
-/>
+        <Header
+          title="Blog"
+          sections={sections.map((section) => ({
+            ...section,
+            onClick: () => handleSectionClick(section.id),
+          }))}
+          extra={
+            <>
+              <Button color="inherit" onClick={navigateHome}>Home</Button>
+              <Button color="inherit" onClick={navigateToCreatePost}>Create</Button>
+            </>
+          }
+          showDeleteButton={true} // Pass showDeleteButton prop
+          onDelete={handleDeletePost} // Pass onDelete prop with the delete function
+        />
 
         <Container maxWidth="lg">
           {post && (
             <>
-            <br/>
-            <br/>
+              <br />
+              <br />
               <Typography variant="h4">{post.title}</Typography>
               <Typography variant="body2" color="textSecondary" gutterBottom>{post.author}</Typography>
               <Typography variant="body2" color="textSecondary" gutterBottom>{post.createdDate}</Typography>
-              <br/>
-              <br/>
+              <br />
+              <br />
               <Typography variant="body1" dangerouslySetInnerHTML={{ __html: post.content }} />
             </>
           )}

@@ -35,6 +35,10 @@ const CreatePost = () => {
     shortdescription: ''
   });
 
+  const handleSectionClick = (id) => {
+    navigate(`/view-post-grid/${id}`);
+  };
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
@@ -76,6 +80,12 @@ const CreatePost = () => {
     navigate('/');
   };
 
+  const centerButtonStyle = {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '20px', // Add margin to separate the button from the form
+  };
+
   const modules = {
     toolbar: [
       [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
@@ -88,11 +98,11 @@ const CreatePost = () => {
   };
 
   const editorStyle = {
-    height: '300px', // Adjust the height as needed
+    height: '250px', // Adjust the height as needed
   };
 
   const formStyle = {
-    marginBottom: '60px', // Add margin to create gap between editor and button
+    marginBottom: '50px', // Add margin to create gap between editor and button
   };
 
   return (
@@ -101,15 +111,24 @@ const CreatePost = () => {
       <Container maxWidth="lg">
         <Header
           title="Blog"
-          sections={sections}
+          sections={sections.map((section) => ({
+            ...section,
+            onClick: () => handleSectionClick(section.id),
+          }))}
           extra={
-            <Button color="inherit" onClick={navigateHome}>Home</Button>
+            <>
+              <Button color="inherit" onClick={navigateHome}>Home</Button>
+            </>
           }
         />
         <main>
           <div style={formStyle}>
             <form onSubmit={handleFormSubmit}>
-              <Typography variant="h4">Create New Post</Typography>
+              <br/>
+              <br/>
+              <div style={centerButtonStyle}>
+                <Typography variant="h4">Create New Post</Typography>
+                </div>
               <TextField
                 name="title"
                 label="Title"
@@ -151,6 +170,8 @@ const CreatePost = () => {
                 onChange={handleInputChange}
                 margin="normal"
                 required
+                multiline
+                rows={3}
               />
               <ReactQuill
                 value={formData.content}
@@ -160,9 +181,14 @@ const CreatePost = () => {
                 theme="snow"
                 style={editorStyle}
               />
-              <Button type="submit" variant="contained" color="primary">
-                Create Post
-              </Button>
+              <br/>
+              <br/>
+              <br/>
+              <div style={centerButtonStyle}>
+                <Button type="submit" variant="contained" color="primary">
+                  Create Post
+                </Button>
+              </div>
             </form>
           </div>
         </main>
