@@ -57,16 +57,21 @@ const ViewPostGrid = () => {
   };
 
   const handleCardClick = (postId) => {
-    const post = postContent.find((post) => post.id === postId);
-    if (post) {
-      // Create a new entry in local storage with the post ID as the key and the JSON data as the value
-      localStorage.setItem(postId, JSON.stringify(post));
-      console.log(`New entry created in local storage for post with ID ${postId}`);
+    // Check if the key for the post ID is already available in local storage
+    const existingPost = localStorage.getItem(postId);
+    if (existingPost) {
+      console.log(`Post with ID ${postId} already exists in local storage.`);
     } else {
-      console.error(`Post with ID ${postId} not found`);
+      const post = postContent.find((post) => post.id === postId);
+      if (post) {
+        // Create a new entry in local storage with the post ID as the key and the JSON data as the value
+        localStorage.setItem(postId, JSON.stringify(post));
+        console.log(`New entry created in local storage for post with ID ${postId}`);
+      } else {
+        console.error(`Post with ID ${postId} not found`);
+      }
     }
   };
-  
 
   return (
     <ThemeProvider theme={defaultTheme}>

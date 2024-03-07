@@ -27,8 +27,26 @@ const Content = () => {
   const { postId } = useParams();
   const [post, setPost] = useState(null);
   const [replyContent, setReplyContent] = useState('');
-  const [replies, setReplies] = useState([]);
+  const [replies, setReplies] = useState(() => {
+    const storedReplies = localStorage.getItem(`replies-${postId}`);
+    return storedReplies ? JSON.parse(storedReplies) : [];
+  });
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchPostFromLocalStorage = () => {
+      const localStorageData = localStorage.getItem(postId);
+      if (localStorageData) {
+        const postData = JSON.parse(localStorageData);
+        setPost(postData);
+      } else {
+        // Handle case when post data is not found in local storage
+        navigate('/');
+      }
+    };
+
+    fetchPostFromLocalStorage();
+  }, [postId, navigate]);
 
   const handleSectionClick = (id) => {
     navigate(`/view-post-grid/${id}`);
@@ -53,34 +71,10 @@ const Content = () => {
 
   const handleSubmitReply = (event) => {
     event.preventDefault();
-    // Logic to handle reply submission
     console.log('Reply submitted:', replyContent);
-    setReplies([...replies, replyContent]); // Add the reply to the list of replies
-    setReplyContent(''); // Clear reply content after submission
+    setReplies([...replies, replyContent]);
+    setReplyContent('');
   };
-
-  useEffect(() => {
-    const fetchPostFromLocalStorage = () => {
-      const localStorageData = localStorage.getItem(postId);
-      if (localStorageData) {
-        const postData = JSON.parse(localStorageData);
-        setPost(postData);
-      } else {
-        // Handle case when post data is not found in local storage
-        navigate('/');
-      }
-    };
-
-    fetchPostFromLocalStorage();
-  }, [postId, navigate]);
-
-  useEffect(() => {
-    // Fetch replies from local storage
-    const storedReplies = localStorage.getItem(`replies-${postId}`);
-    if (storedReplies) {
-      setReplies(JSON.parse(storedReplies));
-    }
-  }, [postId]);
 
   useEffect(() => {
     // Update local storage when replies change
