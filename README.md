@@ -1,7 +1,3 @@
-Sure, here's the updated README file with instructions to run the project:
-
----
-
 # College/Department Blogging Platform
 
 Welcome to the College/Department Blogging Platform! This platform serves as a centralized hub for sharing insights, experiences, and resources within our college or department community.
