@@ -4,7 +4,7 @@ import { Container, Typography, Button } from '@mui/material';
 import Header from './Header';
 import CssBaseline from '@mui/material/CssBaseline';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { createTheme, ThemeProvider } from '@mui/material/styles'; // Import ThemeProvider from @mui/material/styles
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Footer from './Footer';
 
 const sections = [
@@ -40,10 +40,14 @@ const Content = () => {
     navigate('/create-post');
   };
 
+  const handleDeletePost = () => {
+    // Logic to delete post goes here
+    console.log('Post deleted');
+  };
+
   useEffect(() => {
     const fetchPostFromLocalStorage = () => {
       const localStorageData = localStorage.getItem(postId);
-      console.log(localStorageData)
       if (localStorageData) {
         const postData = JSON.parse(localStorageData);
         setPost(postData);
@@ -60,26 +64,33 @@ const Content = () => {
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
       <Container maxWidth="lg">
-        <Header
-          title="Blog"
-          sections={sections.map((section) => ({
-            ...section,
-            onClick: () => handleSectionClick(section.id),
-          }))}
-          extra={
-            <>
-              <Button color="inherit" onClick={navigateHome}>Home</Button>
-              <Button color="inherit" onClick={navigateToCreatePost}>Create</Button>
-            </>
-          }
-        />
+      <Header
+  title="Blog"
+  sections={sections.map((section) => ({
+    ...section,
+    onClick: () => handleSectionClick(section.id),
+  }))}
+  extra={
+    <>
+      <Button color="inherit" onClick={navigateHome}>Home</Button>
+      <Button color="inherit" onClick={navigateToCreatePost}>Create</Button>
+    </>
+  }
+  showDeleteButton={true} // Pass showDeleteButton prop
+  onDelete={handleDeletePost} // Pass onDelete prop with the delete function
+/>
+
         <Container maxWidth="lg">
           {post && (
             <>
+            <br/>
+            <br/>
               <Typography variant="h4">{post.title}</Typography>
-              <Typography variant="subtitle1">Author: {post.author}</Typography>
-              <Typography variant="subtitle2">Created Date: {post.createdDate}</Typography>
-              <Typography variant="body1">{post.content}</Typography>
+              <Typography variant="body2" color="textSecondary" gutterBottom>{post.author}</Typography>
+              <Typography variant="body2" color="textSecondary" gutterBottom>{post.createdDate}</Typography>
+              <br/>
+              <br/>
+              <Typography variant="body1" dangerouslySetInnerHTML={{ __html: post.content }} />
             </>
           )}
         </Container>

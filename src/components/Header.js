@@ -6,9 +6,10 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
 
 function Header(props) {
-  const { sections, title } = props;
+  const { sections, title, showDeleteButton, onDelete } = props;
 
   const handleSectionClick = (event, onClick) => {
     event.preventDefault();
@@ -21,7 +22,7 @@ function Header(props) {
     <React.Fragment>
       <Toolbar sx={{ borderBottom: 1, borderColor: 'divider', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <Button component={Link} to="/" size="small">Home</Button> {/* Home button */}
+          <Button component={Link} to="/" size="small">Home</Button>
           <Button size="small">Subscribe</Button>
         </div>
         <div>
@@ -61,10 +62,14 @@ function Header(props) {
         ))}
       </Toolbar>
       <Toolbar
-        sx={{ justifyContent: 'flex-end', paddingRight: '24px' }}
+        sx={{ justifyContent: 'flex-end', paddingRight: '24px', display: 'flex', gap: '8px', alignItems: 'center' }}
       >
-        <Button component={Link} to="/create-post/" variant="outlined" size="small">Create</Button> {/* Create button */}
+        <Button component={Link} to="/create-post/" variant="outlined" size="small">Create</Button>
+        {showDeleteButton && (
+          <Button onClick={onDelete} variant="outlined" size="small">Delete</Button>
+        )}
       </Toolbar>
+      <Divider sx={{ width: 'calc(100% - 48px)', marginLeft: '24px' }} />
     </React.Fragment>
   );
 }
@@ -78,6 +83,8 @@ Header.propTypes = {
     }),
   ).isRequired,
   title: PropTypes.string.isRequired,
+  showDeleteButton: PropTypes.bool,
+  onDelete: PropTypes.func,
 };
 
 export default Header;
