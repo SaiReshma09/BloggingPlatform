@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Container, Typography, Button } from '@mui/material';
+import { Container, Typography, Button, TextField, List, ListItem, ListItemText } from '@mui/material';
 import Header from './Header';
 import CssBaseline from '@mui/material/CssBaseline';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Footer from './Footer';
 import Divider from '@mui/material/Divider';
@@ -27,6 +26,8 @@ const defaultTheme = createTheme();
 const Content = () => {
   const { postId } = useParams();
   const [post, setPost] = useState(null);
+  const [replyContent, setReplyContent] = useState('');
+  const [replies, setReplies] = useState([]);
   const navigate = useNavigate();
 
   const handleSectionClick = (id) => {
@@ -46,6 +47,18 @@ const Content = () => {
     console.log('Post deleted');
   };
 
+  const handleReplyChange = (event) => {
+    setReplyContent(event.target.value);
+  };
+
+  const handleSubmitReply = (event) => {
+    event.preventDefault();
+    // Logic to handle reply submission
+    console.log('Reply submitted:', replyContent);
+    setReplies([...replies, replyContent]); // Add the reply to the list of replies
+    setReplyContent(''); // Clear reply content after submission
+  };
+
   useEffect(() => {
     const fetchPostFromLocalStorage = () => {
       const localStorageData = localStorage.getItem(postId);
@@ -60,6 +73,19 @@ const Content = () => {
 
     fetchPostFromLocalStorage();
   }, [postId, navigate]);
+
+  useEffect(() => {
+    // Fetch replies from local storage
+    const storedReplies = localStorage.getItem(`replies-${postId}`);
+    if (storedReplies) {
+      setReplies(JSON.parse(storedReplies));
+    }
+  }, [postId]);
+
+  useEffect(() => {
+    // Update local storage when replies change
+    localStorage.setItem(`replies-${postId}`, JSON.stringify(replies));
+  }, [replies, postId]);
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -92,8 +118,37 @@ const Content = () => {
               <Typography variant="body1" dangerouslySetInnerHTML={{ __html: post.content }} style={{ textAlign: 'justify' }} />
             </>
           )}
+
+          <Divider sx={{ width: 'calc(100% - 48px)', marginLeft: '24px', marginTop: '24px' }} />
+
+          {/* Reply Section */}
+          <Typography variant="h5" style={{ marginTop: '24px' }}>Reply</Typography>
+          <form onSubmit={handleSubmitReply}>
+            <TextField
+              id="reply-content"
+              label="Your Reply"
+              multiline
+              fullWidth
+              value={replyContent}
+              onChange={handleReplyChange}
+              variant="outlined"
+              margin="normal"
+            />
+            <Button type="submit" variant="contained" color="primary">
+              Submit Reply
+            </Button>
+          </form>
+
+          {/* List of Replies */}
+          <Typography variant="h5" style={{ marginTop: '24px' }}>Replies</Typography>
+          <List>
+            {replies.map((reply, index) => (
+              <ListItem key={index}>
+                <ListItemText primary={reply} />
+              </ListItem>
+            ))}
+          </List>
         </Container>
-        <Divider sx={{ width: 'calc(100% - 48px)', marginLeft: '24px' }} />
       </Container>
       <Footer
         title="Footer"
