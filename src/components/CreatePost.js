@@ -7,7 +7,7 @@ import { Button, FormControl, InputLabel, MenuItem, Select, TextField, Typograph
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Footer from './Footer';
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css'; // Import Quill's Snow theme CSS
+import 'react-quill/dist/quill.snow.css';
 
 const sections = [
   { title: 'Academic Resources', id: 'academic-resources' },
@@ -31,7 +31,8 @@ const CreatePost = () => {
     title: '',
     topic: '',
     content: '',
-    author: ''
+    author: '',
+    shortdescription: ''
   });
 
   const handleInputChange = (event) => {
@@ -45,12 +46,16 @@ const CreatePost = () => {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    const { title, topic, content, author } = formData;
+    const { title, topic, content, author, shortdescription } = formData;
+    const currentDate = new Date();
+    const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`; // Format: YYYY-MM-DD
     const postData = {
       id: Date.now(),
       title,
       content,
       author,
+      shortdescription,
+      createdDate: formattedDate
     };
     
     // Retrieve existing data from localStorage
@@ -134,6 +139,15 @@ const CreatePost = () => {
                 label="Author"
                 fullWidth
                 value={formData.author}
+                onChange={handleInputChange}
+                margin="normal"
+                required
+              />
+              <TextField
+                name="shortdescription"
+                label="Short Description"
+                fullWidth
+                value={formData.shortdescription}
                 onChange={handleInputChange}
                 margin="normal"
                 required

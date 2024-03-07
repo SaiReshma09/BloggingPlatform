@@ -55,10 +55,6 @@ const ViewPostGrid = () => {
     navigate('/create-post');
   };
 
-  const renderContent = (content) => {
-    return { __html: content };
-  };
-
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
@@ -79,15 +75,23 @@ const ViewPostGrid = () => {
         <main>
           {/* Render post content fetched from local storage */}
           {postContent.map((post, index) => (
-            <Card key={index} style={{ margin: '20px' }}>
+            <Card key={index} style={{ margin: '20px', position: 'relative' }}>
               <CardContent>
                 <Typography variant="h5" component="h2">
                   {post.title}
                 </Typography>
-                <Typography variant="body2" component="div" dangerouslySetInnerHTML={renderContent(post.content)}>
+                <Typography variant="body2" color="textSecondary" gutterBottom>
+                  {post.author}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" gutterBottom>
+                  {post.createdDate}
+                </Typography>
+                <br/>
+                <Typography variant="body2" component="p">
+                  <h3>{post.shortdescription}</h3>
                 </Typography>
               </CardContent>
-              <CardActions>
+              <CardActions style={{ position: 'absolute', top: '5px', right: '5px' }}>
                 <IconButton aria-label="delete">
                   <DeleteIcon />
                 </IconButton>
