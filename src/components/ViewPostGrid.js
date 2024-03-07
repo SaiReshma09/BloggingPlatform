@@ -3,11 +3,12 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import Header from './Header';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
-import { Button, Card, CardContent, CardActions, Typography, IconButton } from '@mui/material';
+import { Button, Card, CardContent, Typography, IconButton, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, CardActions } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Footer from './Footer';
 import data from '../data.json'; // Import the data from data.json
+import { deletePost } from './DeletePost'; // Import the deletePost function
 
 const sections = [
   { title: 'Academic Resources', id: 'academic-resources' },
@@ -23,16 +24,28 @@ const sections = [
   { title: 'Alumni', id: 'alumni' },
 ];
 
-const defaultTheme = createTheme();
+const defaultTheme = createTheme({
+  typography: {
+    // Customize typography colors here
+    body1: {
+      color: '#000', // Black color for body text
+    },
+    body2: {
+      color: '#000', // Black color for secondary text
+    },
+    // Add more overrides as needed
+  },
+});
 
 const ViewPostGrid = () => {
   const { sectionId } = useParams();
   const navigate = useNavigate();
   const [postContent, setPostContent] = useState([]);
-  const [error, setError] = useState(null);
+  const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
+  const [deleteSuccess, setDeleteSuccess] = useState(false);
+  const [postIdToDelete, setPostIdToDelete] = useState(null);
 
   useEffect(() => {
-    // Filter posts based on the selected section
     const filteredPosts = data.posts.filter(post => post.topic === sectionId);
     setPostContent(filteredPosts);
   }, [sectionId]);
@@ -51,13 +64,31 @@ const ViewPostGrid = () => {
 
   const handleCardClick = (postId) => {
     const post = data.posts.find(post => post.id === postId);
-    console.log(post)
     if (post) {
-      // Navigate to the content page with the post ID as a parameter
       navigate(`/content/${post.id}`);
     } else {
       console.error(`Post with ID ${postId} not found`);
     }
+  };
+
+  const handleDelete = async (postId) => {
+    setPostIdToDelete(postId);
+    setDeleteConfirmationOpen(true);
+  };
+
+  const handleCloseDeleteConfirmation = () => {
+    setDeleteConfirmationOpen(false);
+    setPostIdToDelete(null);
+  };
+
+  const handleConfirmDelete = async () => {
+    const deleted = await deletePost(postIdToDelete);
+    if (deleted) {
+      const updatedPosts = postContent.filter(post => post.id !== postIdToDelete);
+      setPostContent(updatedPosts);
+      setDeleteSuccess(true);
+    }
+    setDeleteConfirmationOpen(false);
   };
 
   return (
@@ -80,10 +111,10 @@ const ViewPostGrid = () => {
         <main>
           {postContent.length > 0 ? (
             postContent.map((post, index) => (
-              <Link key={index} to={`/content/${post.id}`} style={{ textDecoration: 'none' }} onClick={() => handleCardClick(post.id)}>
-                <Card style={{ margin: '20px', position: 'relative' }}>
+              <Card style={{ marginLeft: '20.5px', width: 'calc(100% - 48px)', position: 'relative', margin: '20px', position: 'relative' }}>
+                <Link key={index} to={`/content/${post.id}`} style={{ textDecoration: 'none' }} onClick={() => handleCardClick(post.id)}>
                   <CardContent>
-                    <Typography variant="h5" component="h2" style={{ fontWeight: 'bold' }}>
+                    <Typography variant="h5" component="h2" style={{ fontWeight: 'bold', color: '#000' }}>
                       {post.title}
                     </Typography>
                     <Typography variant="body2" color="textSecondary" gutterBottom>
@@ -93,28 +124,44 @@ const ViewPostGrid = () => {
                       {post.createdDate}
                     </Typography>
                     <br />
-                    <Typography variant="body2" component="p" style={{ textAlign: 'justify' }}>
+                    <Typography variant="body2" component="p" style={{ textAlign: 'justify', color: '#000' }}>
                       {post.shortdescription}
                     </Typography>
                   </CardContent>
-                  <CardActions style={{ position: 'absolute', top: '5px', right: '5px' }}>
-                    <IconButton aria-label="delete">
-                      <DeleteIcon />
-                    </IconButton>
-                  </CardActions>
-                </Card>
-              </Link>
+                </Link>
+                <CardActions style={{ position: 'absolute', top: '5px', right: '5px' }}>
+                  <IconButton aria-label="delete" onClick={() => handleDelete(post.id)}>
+                    <DeleteIcon />
+                  </IconButton>
+                </CardActions>
+              </Card>
             ))
           ) : (
             <Typography variant="body1">No content available for this section.</Typography>
           )}
         </main>
+        <Footer
+          title="Footer"
+          description="Something here to give the footer a purpose!"
+        />
       </Container>
 
-      <Footer
-        title="Footer"
-        description="Something here to give the footer a purpose!"
-      />
+      <Dialog open={deleteConfirmationOpen} onClose={handleCloseDeleteConfirmation}>
+        <DialogTitle>Delete Post</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete this post?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDeleteConfirmation} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleConfirmDelete} color="primary" autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </ThemeProvider>
   );
 };

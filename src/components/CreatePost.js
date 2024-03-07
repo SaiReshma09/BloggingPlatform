@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
-import { Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Footer from './Footer';
 import ReactQuill from 'react-quill';
@@ -35,6 +35,7 @@ const CreatePost = () => {
     shortdescription: '',
     replies: []
   });
+  const [dialogOpen, setDialogOpen] = useState(false); // State to control dialog visibility
 
   const handleSectionClick = (id) => {
     navigate(`/view-post-grid/${id}`);
@@ -48,10 +49,6 @@ const CreatePost = () => {
   const handleContentChange = (content) => {
     setFormData({ ...formData, content });
   };
-
-
-
-
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -70,11 +67,15 @@ const CreatePost = () => {
 
     if (response.ok) {
       console.log('Post added successfully');
-      // Optionally update UI or reset form fields
+      setDialogOpen(true); // Open the dialog if post added successfully
     } else {
       console.error('Failed to add post');
     }
-    navigate('/');
+  };
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false); // Close the dialog
+    navigate('/'); // Navigate to the home page
   };
 
   const navigateHome = () => {
@@ -192,6 +193,25 @@ const CreatePost = () => {
               </div>
             </form>
           </div>
+          {/* Dialog for post creation success */}
+          <Dialog
+            open={dialogOpen}
+            onClose={handleCloseDialog}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">{"Post Created Successfully!"}</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Your post has been created successfully.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleCloseDialog} autoFocus>
+                OK
+              </Button>
+            </DialogActions>
+          </Dialog>
         </main>
       </Container>
       <Footer

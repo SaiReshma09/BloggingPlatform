@@ -3,11 +3,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Header from './Header';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
-import { Typography, TextField, Button } from '@mui/material';
+import { Typography, TextField, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Footer from './Footer';
 import data from '../data.json'; // Import the data from data.json
 import Divider from '@mui/material/Divider';
+import { deletePost } from './DeletePost';
 
 const sections = [
   { title: 'Academic Resources', id: 'academic-resources' },
@@ -29,6 +30,7 @@ const Content = () => {
   const { postId } = useParams();
   const [post, setPost] = useState(null);
   const [replyContent, setReplyContent] = useState('');
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false); // State to control delete confirmation dialog
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: '',
@@ -91,8 +93,20 @@ const Content = () => {
   };
 
   const handleDeletePost = () => {
-    // Logic to delete post goes here
-    console.log('Post deleted');
+    setDeleteDialogOpen(true); // Open the delete confirmation dialog
+  };
+
+  const confirmDeletePost = async () => {
+    const deleted = await deletePost(postId);
+    if (deleted) {
+      navigate(`/view-post-grid/${post.topic}`); // Redirect to the section post grid page after deleting the post
+    } else {
+      console.error('Failed to delete post');
+    }
+  };
+
+  const cancelDeletePost = () => {
+    setDeleteDialogOpen(false); // Close the delete confirmation dialog
   };
 
   return (
@@ -170,6 +184,28 @@ const Content = () => {
           description="Something here to give the footer a purpose!"
         />
       </Container>
+      {/* Delete confirmation dialog */}
+      <Dialog
+        open={deleteDialogOpen}
+        onClose={cancelDeletePost}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Delete Post?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure you want to delete this post?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={cancelDeletePost} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={confirmDeletePost} color="primary" autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </ThemeProvider>
   );
 };
