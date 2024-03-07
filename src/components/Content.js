@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Header from './Header';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
-import { Typography, TextField, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Card, CardContent, Typography, TextField, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Footer from './Footer';
 import data from '../data.json'; // Import the data from data.json
@@ -59,9 +59,18 @@ const Content = () => {
 
   const handleSubmitReply = async (e) => {
     e.preventDefault();
-    
-    const updatedReplies = [...post.replies, replyContent]; // Add the new reply to the existing replies
-    
+
+    // Fetch user detail from localStorage
+    const user = localStorage.getItem('user');
+    console.log(user)
+    // Create a new reply object with user detail
+    const newReply = {
+      content: replyContent,
+      user: user,
+    };
+
+    const updatedReplies = [...post.replies, newReply]; // Add the new reply to the existing replies
+
     const response = await fetch(`http://localhost:3001/posts/${postId}`, {
       method: 'PATCH', // Use PATCH method for partial updates
       headers: {
@@ -69,7 +78,7 @@ const Content = () => {
       },
       body: JSON.stringify({ replies: updatedReplies }), // Send updated replies array in the request body
     });
-  
+
     if (response.ok) {
       console.log('Reply submitted successfully');
       // Optionally update UI or reset form fields
@@ -79,7 +88,7 @@ const Content = () => {
       console.error('Failed to submit reply');
     }
   };
-  
+
   const handleSectionClick = (id) => {
     navigate(`/view-post-grid/${id}`);
   };
@@ -137,12 +146,12 @@ const Content = () => {
                 <Typography variant="h4">{post.title}</Typography>
                 <Typography variant="body2" color="textSecondary" gutterBottom>{post.author}</Typography>
                 <Typography variant="body2" color="textSecondary" gutterBottom>{post.createdDate}</Typography>
-                <br/>
-                <br/>
+                <br />
+                <br />
                 {/* Post content */}
                 <div>
                   {/* Render HTML content using dangerouslySetInnerHTML */}
-                  <Typography variant="body1" dangerouslySetInnerHTML={{ __html: post.content }} style={{ textAlign: 'justify' }}/>
+                  <Typography variant="body1" dangerouslySetInnerHTML={{ __html: post.content }} style={{ textAlign: 'justify' }} />
                 </div>
 
                 {/* Reply section */}
@@ -167,11 +176,18 @@ const Content = () => {
 
                   {/* List of Replies */}
                   <Typography variant="h5" style={{ marginTop: '24px' }}>Replies</Typography>
-                  <ul>
+                  <div style={{ marginTop: '24px' }}>
                     {post.replies.map((reply, index) => (
-                      <li key={index}>{reply}</li>
+                      <Card key={index} style={{ marginBottom: '12px' }}>
+                        <CardContent>
+                          <Typography variant="body1">
+                            <strong>{reply.user}</strong><br />
+                            {reply.content}
+                          </Typography>
+                        </CardContent>
+                      </Card>
                     ))}
-                  </ul>
+                  </div>
                 </div>
               </div>
             </>

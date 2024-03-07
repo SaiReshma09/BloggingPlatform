@@ -34,9 +34,6 @@ function Header(props) {
           </Typography>
         </div>
         <div>
-          <IconButton>
-            <SearchIcon />
-          </IconButton>
           {login ? (
             <Button component={Link} to="/" variant="outlined" size="small" onClick={() => {localStorage.setItem('login', false);
             window.location.reload();localStorage.setItem('user', 'nouser');}}>

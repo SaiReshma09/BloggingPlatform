@@ -19,13 +19,19 @@ To get started with the College/Department Blogging Platform, follow these steps
    npm install
    ```
 
-2. **Run JSON Server**: Start the JSON server to serve the blog data.
+2. **Install JSON Server**: Install the JSON server.
+
+   ```bash
+   npm install json-server
+   ```
+
+3. **Run JSON Server**: Start the JSON server to serve the blog data.
 
    ```bash
    json-server --watch ./src/data.json --port 3001
    ```
 
-3. **Run the Application**: Open another terminal and start the development server to run the blogging platform locally.
+4. **Run the Application**: Open another terminal and start the development server to run the blogging platform locally.
 
    ```bash
    npm start
