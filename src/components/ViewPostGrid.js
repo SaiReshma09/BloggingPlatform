@@ -36,7 +36,7 @@ const ViewPostGrid = () => {
       if (localStorageData) {
         setPostContent(JSON.parse(localStorageData));
       } else {
-        setPostContent([]); // Reset postContent to an empty array when no data found
+        setPostContent([]);
         setError('Data not found in local storage');
       }
     };
@@ -55,6 +55,18 @@ const ViewPostGrid = () => {
   const navigateToCreatePost = () => {
     navigate('/create-post');
   };
+
+  const handleCardClick = (postId) => {
+    const post = postContent.find((post) => post.id === postId);
+    if (post) {
+      // Create a new entry in local storage with the post ID as the key and the JSON data as the value
+      localStorage.setItem(postId, JSON.stringify(post));
+      console.log(`New entry created in local storage for post with ID ${postId}`);
+    } else {
+      console.error(`Post with ID ${postId} not found`);
+    }
+  };
+  
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -76,7 +88,7 @@ const ViewPostGrid = () => {
         <main>
           {postContent.length > 0 ? (
             postContent.map((post, index) => (
-              <Link key={index} to={`/content/${post.id}`} style={{ textDecoration: 'none' }}>
+              <Link key={index} to={`/content/${post.id}`} style={{ textDecoration: 'none' }} onClick={() => handleCardClick(post.id)}>
                 <Card style={{ margin: '20px', position: 'relative' }}>
                   <CardContent>
                     <Typography variant="h5" component="h2" style={{ fontWeight: 'bold' }}>
