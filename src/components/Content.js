@@ -6,6 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Footer from './Footer';
+import Divider from '@mui/material/Divider';
 
 const sections = [
   { title: 'Academic Resources', id: 'academic-resources' },
@@ -88,10 +89,11 @@ const Content = () => {
               <Typography variant="body2" color="textSecondary" gutterBottom>{post.createdDate}</Typography>
               <br />
               <br />
-              <Typography variant="body1" dangerouslySetInnerHTML={{ __html: post.content }} />
+              <Typography variant="body1" dangerouslySetInnerHTML={{ __html: post.content }} style={{ textAlign: 'justify' }} />
             </>
           )}
         </Container>
+        <Divider sx={{ width: 'calc(100% - 48px)', marginLeft: '24px' }} />
       </Container>
       <Footer
         title="Footer"
