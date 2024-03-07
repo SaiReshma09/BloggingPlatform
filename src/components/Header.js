@@ -3,28 +3,24 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import SearchIcon from '@mui/icons-material/Search';
 import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
 
 function Header(props) {
-  const { sections, title, login, user } = props;
+  const { sections, title, login, user, showDeleteButton, onDelete } = props;
   console.log(user)
 
   const handleSectionClick = (event, onClick) => {
     event.preventDefault();
     if (onClick) {
-      onClick();
+      onClick(event);
     }
   };
 
   return (
     <React.Fragment>
       <Toolbar sx={{ borderBottom: 1, borderColor: 'divider', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div>
-          <Button component={Link} to="/" size="small">Home</Button> {/* Home button */}
-          <Button size="small">Subscribe</Button>
-        </div>
+        <div></div>
         <div>
           <Typography
             component="h2"
@@ -62,15 +58,33 @@ function Header(props) {
           <Button
             key={section.title}
             onClick={(event) => handleSectionClick(event, section.onClick)}
-            sx={{ p: 1, flexShrink: 0, color: 'inherit', display: 'block' }}
+            sx={{
+              p: 1,
+              flexShrink: 0,
+              color: section.isActive ? 'primary.main' : 'inherit', // Apply primary color if active
+              fontWeight: section.isActive ? 'bold' : 'normal', // Make bold if active
+              display: 'block'
+            }}
           >
             {section.title}
           </Button>
         ))}
       </Toolbar>
       <Toolbar
-        sx={{ justifyContent: 'flex-end', paddingRight: '24px' }}
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          paddingRight: '24px',
+          gap: '8px', // Add gap between buttons
+          alignItems: 'center'
+        }}
       >
+        <Button component={Link} to="/" variant="outlined" size="small" >Home</Button>
+        <div style={{ display: 'flex', gap: '8px' }}> {/* Add gap between buttons */}
+          {showDeleteButton && (
+            <Button onClick={onDelete} variant="outlined" size="small">Delete</Button>
+          )}
+        </div>
         {login ? (
             <Button component={Link} to="/create-post/:sectionId" variant="outlined" size="small">
               Create
@@ -83,6 +97,10 @@ function Header(props) {
             </Button>
           ) : null}
       </Toolbar>
+
+      <Divider sx={{ width: 'calc(100% - 48px)', marginLeft: '24px' }} />
+      <br />
+      <br />
     </React.Fragment>
   );
 }
@@ -93,9 +111,13 @@ Header.propTypes = {
       title: PropTypes.string.isRequired,
       url: PropTypes.string,
       onClick: PropTypes.func,
+      isActive: PropTypes.bool // New prop to track active state
     }),
   ).isRequired,
   title: PropTypes.string.isRequired,
+
+  showDeleteButton: PropTypes.bool,
+  onDelete: PropTypes.func,
   login: PropTypes.bool.isRequired,
 };
 
