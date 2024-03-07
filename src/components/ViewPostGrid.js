@@ -1,5 +1,3 @@
-// ViewPostGrid.js
-
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import Header from './Header';
@@ -76,32 +74,36 @@ const ViewPostGrid = () => {
           }
         />
         <main>
-          {postContent.map((post, index) => (
-            <Link key={index} to={`/content/${post.id}`} style={{ textDecoration: 'none' }}>
-              <Card style={{ margin: '20px', position: 'relative' }}>
-                <CardContent>
-                  <Typography variant="h5" component="h2" style={{ fontWeight: 'bold' }}>
-                    {post.title}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary" gutterBottom>
-                    {post.author}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary" gutterBottom>
-                    {post.createdDate}
-                  </Typography>
-                  <br />
-                  <Typography variant="body2" component="p" style={{ textAlign: 'justify' }}>
-                    {post.shortdescription}
-                  </Typography>
-                </CardContent>
-                <CardActions style={{ position: 'absolute', top: '5px', right: '5px' }}>
-                  <IconButton aria-label="delete">
-                    <DeleteIcon />
-                  </IconButton>
-                </CardActions>
-              </Card>
-            </Link>
-          ))}
+          {postContent.length > 0 ? (
+            postContent.map((post, index) => (
+              <Link key={index} to={`/content/${post.id}`} style={{ textDecoration: 'none' }}>
+                <Card style={{ margin: '20px', position: 'relative' }}>
+                  <CardContent>
+                    <Typography variant="h5" component="h2" style={{ fontWeight: 'bold' }}>
+                      {post.title}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" gutterBottom>
+                      {post.author}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" gutterBottom>
+                      {post.createdDate}
+                    </Typography>
+                    <br />
+                    <Typography variant="body2" component="p" style={{ textAlign: 'justify' }}>
+                      {post.shortdescription}
+                    </Typography>
+                  </CardContent>
+                  <CardActions style={{ position: 'absolute', top: '5px', right: '5px' }}>
+                    <IconButton aria-label="delete">
+                      <DeleteIcon />
+                    </IconButton>
+                  </CardActions>
+                </Card>
+              </Link>
+            ))
+          ) : (
+            <Typography variant="body1">No content available for this section.</Typography>
+          )}
         </main>
       </Container>
 
