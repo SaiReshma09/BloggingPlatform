@@ -62,12 +62,12 @@ function Header(props) {
           display: 'flex',
           justifyContent: 'space-between',
           paddingRight: '24px',
-          gap: '8px',
+          gap: '8px', // Add gap between buttons
           alignItems: 'center'
         }}
       >
         <Button component={Link} to="/" variant="outlined" size="small" >Home</Button>
-        <div>
+        <div style={{ display: 'flex', gap: '8px' }}> {/* Add gap between buttons */}
           <Button component={Link} to="/create-post/" variant="outlined" size="small">Create</Button>
           {showDeleteButton && (
             <Button onClick={onDelete} variant="outlined" size="small">Delete</Button>
