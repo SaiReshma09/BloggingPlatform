@@ -13,7 +13,7 @@ function Header(props) {
   const handleSectionClick = (event, onClick) => {
     event.preventDefault();
     if (onClick) {
-      onClick();
+      onClick(event);
     }
   };
 

@@ -1,5 +1,7 @@
+// ViewPostGrid.js
+
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import Header from './Header';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
@@ -32,11 +34,12 @@ const ViewPostGrid = () => {
 
   useEffect(() => {
     const fetchPostsFromLocalStorage = () => {
-      const localStorageData = localStorage.getItem(sectionId); // Get data from local storage based on sectionId
+      const localStorageData = localStorage.getItem(sectionId);
       if (localStorageData) {
-        setPostContent(JSON.parse(localStorageData)); // Parse JSON data from local storage
+        setPostContent(JSON.parse(localStorageData));
       } else {
-        setError('Data not found in local storage'); // Handle case when data is not found in local storage
+        setPostContent([]); // Reset postContent to an empty array when no data found
+        setError('Data not found in local storage');
       }
     };
 
@@ -73,34 +76,35 @@ const ViewPostGrid = () => {
           }
         />
         <main>
-          {/* Render post content fetched from local storage */}
           {postContent.map((post, index) => (
-            <Card key={index} style={{ margin: '20px', position: 'relative' }}>
-              <CardContent>
-                <Typography variant="h5" component="h2">
-                  {post.title}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" gutterBottom>
-                  {post.author}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" gutterBottom>
-                  {post.createdDate}
-                </Typography>
-                <br/>
-                <Typography variant="body2" component="p">
-                  <h3>{post.shortdescription}</h3>
-                </Typography>
-              </CardContent>
-              <CardActions style={{ position: 'absolute', top: '5px', right: '5px' }}>
-                <IconButton aria-label="delete">
-                  <DeleteIcon />
-                </IconButton>
-              </CardActions>
-            </Card>
+            <Link key={index} to={`/content/${post.id}`} style={{ textDecoration: 'none' }}>
+              <Card style={{ margin: '20px', position: 'relative' }}>
+                <CardContent>
+                  <Typography variant="h5" component="h2" style={{ fontWeight: 'bold' }}>
+                    {post.title}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary" gutterBottom>
+                    {post.author}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary" gutterBottom>
+                    {post.createdDate}
+                  </Typography>
+                  <br />
+                  <Typography variant="body2" component="p" style={{ textAlign: 'justify' }}>
+                    {post.shortdescription}
+                  </Typography>
+                </CardContent>
+                <CardActions style={{ position: 'absolute', top: '5px', right: '5px' }}>
+                  <IconButton aria-label="delete">
+                    <DeleteIcon />
+                  </IconButton>
+                </CardActions>
+              </Card>
+            </Link>
           ))}
         </main>
       </Container>
-      
+
       <Footer
         title="Footer"
         description="Something here to give the footer a purpose!"

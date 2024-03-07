@@ -1,52 +1,41 @@
-import React from 'react';
-import { Card, CardContent, Typography, CardActions, IconButton } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
+// Content.js
 
-const PostCard = ({ title, content, author }) => {
-    const handleDelete = () => {
-        // Implement delete functionality here
-        console.log("Delete button clicked");
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Container, Typography } from '@mui/material';
+
+const Content = () => {
+  const { postId } = useParams();
+  const [post, setPost] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchPostFromLocalStorage = () => {
+      const localStorageData = localStorage.getItem(postId);
+      if (localStorageData) {
+        const postData = JSON.parse(localStorageData);
+        setPost(postData);
+      } else {
+        // Handle case when post data is not found in local storage
+        navigate('/'); // Redirect to home page or any other page
+      }
     };
 
-    return (
-        <Card style={{
-            margin: "30px",
-            padding:"10px",
-            // backgroundColor: "#FFDEE9",
-            backgroundImage: "linear-gradient(to right top, #ffffff, #eef0f6, #d8e3ed, #bfd7e1, #a7cbd0)"
-        }}>
-            <CardActions style={{ justifyContent: 'space-between' }}>
-                <Typography variant="h" component="h2">
-                    {title}
-                    Animal
-                </Typography>
-                <IconButton aria-label="delete" onClick={handleDelete}>
-                    <DeleteIcon />
-                </IconButton>
-            </CardActions>
-            <CardContent>
-                <Typography variant="body2" component="p" style={{
-                    marginLeft:"50px",
-                    marginRight:"50px"
-                }}>
-                    {content}
-                    A paragraph is a group of sentences that fleshes out a single idea. In order for a paragraph to be effective,
-                    it must begin with a topic sentence, 
-                    have sentences that support the main idea of that paragraph, and maintain a consistent flow.
-                    it must begin with a topic sentence, 
-                    have sentences that support the main idea of that paragraph, and maintain a consistent flow.
-                    it must begin with a topic sentence, 
-                    have sentences that support the main idea of that paragraph, and maintain a consistent flow.
-                </Typography>
-            </CardContent>
-            <CardActions style={{ justifyContent: 'flex-end' }}>
-                <Typography variant="caption">
-                    By: {author}
-                    Nirbhay
-                </Typography>
-            </CardActions>
-        </Card>
-    );
+    fetchPostFromLocalStorage();
+  }, [postId, navigate]);
+
+  return (
+    <Container maxWidth="lg">
+      {post && (
+        <>
+          <Typography variant="h4">{post.title}</Typography>
+          <Typography variant="subtitle1">Author: {post.author}</Typography>
+          <Typography variant="subtitle2">Created Date: {post.createdDate}</Typography>
+          <Typography variant="body1">{post.content}</Typography>
+        </>
+      )}
+    </Container>
+  );
 };
 
-export default PostCard;
+export default Content;
