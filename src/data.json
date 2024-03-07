@@ -8,7 +8,16 @@
       "author": "Arpit Singhal",
       "shortdescription": "The \"Era of Smartphone\" blog post explores the transformative impact of smartphones on modern society. From their evolution since the introduction of the iPhone in 2007 to their profound influence on communication, work, and access to information, the article highlights both the benefits and challenges associated with smartphone technology. It also discusses future trends such as AI, AR, and 5G connectivity, showcasing the ongoing innovation in the smartphone industry and its implications for the future.",
       "createdDate": "03-07-2024",
-      "replies": []
+      "replies": [
+        {
+          "content": "Great insights!",
+          "user": "John"
+        },
+        {
+          "content": "Informative post!",
+          "user": "Emma"
+        }
+      ]
     },
     {
       "id": "567e",
@@ -30,7 +39,12 @@
       "author": "Emma Watson",
       "shortdescription": "This post provides an overview of academic support services available to students, including tutoring, writing centers, and academic advising, highlighting their role in enhancing learning outcomes and academic success.",
       "createdDate": "03-02-2024",
-      "replies": []
+      "replies": [
+        {
+          "content": "Check if Reply Works or not",
+          "user": "Kishan"
+        }
+      ]
     },
     {
       "id": "78tg",
@@ -160,7 +174,20 @@
       "author": "James Smith",
       "shortdescription": "This post discusses initiatives and programs aimed at promoting cultural awareness and sensitivity on campus, including diversity workshops, cultural competency training, and intercultural dialogue events, fostering a more inclusive and respectful campus community.",
       "createdDate": "01-15-2024",
-      "replies": []
+      "replies": [
+        {
+          "content": "Great insights!",
+          "user": "John"
+        },
+        {
+          "content": "Nice post!",
+          "user": "Sophia"
+        },
+        {
+          "content": "Informative!",
+          "user": "Michael"
+        }
+      ]
     },
     {
       "id": "90oi",
@@ -200,7 +227,16 @@
       "author": "Emma Johnson",
       "shortdescription": "This post highlights cultural festivals and events within local communities, from music festivals and food fairs to art exhibitions and heritage celebrations, fostering community pride and cultural exchange.",
       "createdDate": "01-30-2024",
-      "replies": []
+      "replies": [
+        {
+          "content": "Great insights!",
+          "user": "John"
+        },
+        {
+          "content": "Nice post!",
+          "user": "Sophia"
+        }
+      ]
     },
     {
       "id": "90dr",
@@ -260,7 +296,12 @@
       "author": "Sophia Johnson",
       "shortdescription": "This post highlights various sports clubs and intramural teams available to students, promoting physical activity, teamwork, and camaraderie through participation in organized sports leagues and competitions.",
       "createdDate": "01-20-2024",
-      "replies": []
+      "replies": [
+        {
+          "content": "Great insights!",
+          "user": "John"
+        }
+      ]
     },
     {
       "id": "90ki",
