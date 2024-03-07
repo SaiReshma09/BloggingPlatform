@@ -8,7 +8,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import Typography from '@mui/material/Typography';
 
 function Header(props) {
-  const { sections, title } = props;
+  const { sections, title, login, user } = props;
+  console.log(user)
 
   const handleSectionClick = (event, onClick) => {
     event.preventDefault();
@@ -40,9 +41,16 @@ function Header(props) {
           <IconButton>
             <SearchIcon />
           </IconButton>
-          <Button variant="outlined" size="small">
-            Sign up
-          </Button>
+          {login ? (
+            <Button component={Link} to="/" variant="outlined" size="small" onClick={() => {localStorage.setItem('login', false);
+            window.location.reload();localStorage.setItem('user', 'nouser');}}>
+              Logout
+            </Button>
+          ) : (
+            <Button component={Link} to="/Login" variant="outlined" size="small">
+              Login
+            </Button>
+          )}
         </div>
       </Toolbar>
       <Toolbar
@@ -63,7 +71,17 @@ function Header(props) {
       <Toolbar
         sx={{ justifyContent: 'flex-end', paddingRight: '24px' }}
       >
-        <Button component={Link} to="/create-post/:sectionId" variant="outlined" size="small">Create</Button> {/* Create button */}
+        {login ? (
+            <Button component={Link} to="/create-post/:sectionId" variant="outlined" size="small">
+              Create
+            </Button>
+          ) : null}
+          <br/>
+          {user=='admin' ? (
+            <Button component={Link} to="/ManageUsers" variant="outlined" size="small" style={ {marginLeft: '10px'}}>
+              Manage Users
+            </Button>
+          ) : null}
       </Toolbar>
     </React.Fragment>
   );
@@ -78,6 +96,7 @@ Header.propTypes = {
     }),
   ).isRequired,
   title: PropTypes.string.isRequired,
+  login: PropTypes.bool.isRequired,
 };
 
 export default Header;

@@ -57,6 +57,8 @@ const CreatePost = () => {
           extra={
             <Button color="inherit" onClick={navigateHome}>Home</Button>
           }
+          login={localStorage.getItem('login') === 'true'}
+          user={localStorage.getItem('user')}
         />
         <main>
           <form onSubmit={handleFormSubmit}>
