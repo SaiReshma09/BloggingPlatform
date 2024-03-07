@@ -10,20 +10,6 @@ import Footer from './Footer';
 import data from '../data.json'; // Import the data from data.json
 import { deletePost } from './DeletePost'; // Import the deletePost function
 
-const sections = [
-  { title: 'Academic Resources', id: 'academic-resources' },
-  { title: 'Career Services', id: 'career-services' },
-  { title: 'Campus', id: 'campus' },
-  { title: 'Culture', id: 'culture' },
-  { title: 'Local Community Resources', id: 'local-community-resources' },
-  { title: 'Social', id: 'social' },
-  { title: 'Sports', id: 'sports' },
-  { title: 'Health and Wellness', id: 'health-and-wellness' },
-  { title: 'Technology', id: 'technology' },
-  { title: 'Travel', id: 'travel' },
-  { title: 'Alumni', id: 'alumni' },
-];
-
 const defaultTheme = createTheme({
   typography: {
     // Customize typography colors here
@@ -45,9 +31,31 @@ const ViewPostGrid = () => {
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [postIdToDelete, setPostIdToDelete] = useState(null);
 
+  // Define sections state and setter
+  const [sections, setSections] = useState([
+    { title: 'Academic Resources', id: 'academic-resources' },
+    { title: 'Career Services', id: 'career-services' },
+    { title: 'Campus', id: 'campus' },
+    { title: 'Culture', id: 'culture' },
+    { title: 'Local Community Resources', id: 'local-community-resources' },
+    { title: 'Social', id: 'social' },
+    { title: 'Sports', id: 'sports' },
+    { title: 'Health and Wellness', id: 'health-and-wellness' },
+    { title: 'Technology', id: 'technology' },
+    { title: 'Travel', id: 'travel' },
+    { title: 'Alumni', id: 'alumni' },
+  ]);
+
   useEffect(() => {
     const filteredPosts = data.posts.filter(post => post.topic === sectionId);
     setPostContent(filteredPosts);
+
+    // Update isActive property based on the sectionId
+    const updatedSections = sections.map(section => ({
+      ...section,
+      isActive: section.id === sectionId,
+    }));
+    setSections(updatedSections);
   }, [sectionId]);
 
   const handleSectionClick = (id) => {

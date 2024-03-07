@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import SearchIcon from '@mui/icons-material/Search';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 
@@ -21,9 +19,7 @@ function Header(props) {
   return (
     <React.Fragment>
       <Toolbar sx={{ borderBottom: 1, borderColor: 'divider', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div>
-
-        </div>
+        <div></div>
         <div>
           <Typography
             component="h2"
@@ -51,7 +47,13 @@ function Header(props) {
           <Button
             key={section.title}
             onClick={(event) => handleSectionClick(event, section.onClick)}
-            sx={{ p: 1, flexShrink: 0, color: 'inherit', display: 'block' }}
+            sx={{
+              p: 1,
+              flexShrink: 0,
+              color: section.isActive ? 'primary.main' : 'inherit', // Apply primary color if active
+              fontWeight: section.isActive ? 'bold' : 'normal', // Make bold if active
+              display: 'block'
+            }}
           >
             {section.title}
           </Button>
@@ -88,6 +90,7 @@ Header.propTypes = {
       title: PropTypes.string.isRequired,
       url: PropTypes.string,
       onClick: PropTypes.func,
+      isActive: PropTypes.bool // New prop to track active state
     }),
   ).isRequired,
   title: PropTypes.string.isRequired,

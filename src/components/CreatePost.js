@@ -75,7 +75,7 @@ const CreatePost = () => {
 
   const handleCloseDialog = () => {
     setDialogOpen(false); // Close the dialog
-    navigate('/'); // Navigate to the home page
+    navigate(`/view-post-grid/${formData.topic}`); // Navigate to the home page
   };
 
   const navigateHome = () => {
