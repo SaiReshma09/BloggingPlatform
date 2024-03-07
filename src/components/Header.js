@@ -22,8 +22,7 @@ function Header(props) {
     <React.Fragment>
       <Toolbar sx={{ borderBottom: 1, borderColor: 'divider', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <Button component={Link} to="/" size="small">Home</Button>
-          <Button size="small">Subscribe</Button>
+
         </div>
         <div>
           <Typography
@@ -38,9 +37,6 @@ function Header(props) {
           </Typography>
         </div>
         <div>
-          <IconButton>
-            <SearchIcon />
-          </IconButton>
           <Button variant="outlined" size="small">
             Sign up
           </Button>
@@ -62,16 +58,26 @@ function Header(props) {
         ))}
       </Toolbar>
       <Toolbar
-        sx={{ justifyContent: 'flex-end', paddingRight: '24px', display: 'flex', gap: '8px', alignItems: 'center' }}
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          paddingRight: '24px',
+          gap: '8px',
+          alignItems: 'center'
+        }}
       >
-        <Button component={Link} to="/create-post/" variant="outlined" size="small">Create</Button>
-        {showDeleteButton && (
-          <Button onClick={onDelete} variant="outlined" size="small">Delete</Button>
-        )}
+        <Button component={Link} to="/" variant="outlined" size="small" >Home</Button>
+        <div>
+          <Button component={Link} to="/create-post/" variant="outlined" size="small">Create</Button>
+          {showDeleteButton && (
+            <Button onClick={onDelete} variant="outlined" size="small">Delete</Button>
+          )}
+        </div>
       </Toolbar>
+
       <Divider sx={{ width: 'calc(100% - 48px)', marginLeft: '24px' }} />
-      <br/>
-      <br/>
+      <br />
+      <br />
     </React.Fragment>
   );
 }
