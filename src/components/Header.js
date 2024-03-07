@@ -7,7 +7,8 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 
 function Header(props) {
-  const { sections, title, showDeleteButton, onDelete } = props;
+  const { sections, title, login, user, showDeleteButton, onDelete } = props;
+  console.log(user)
 
   const handleSectionClick = (event, onClick) => {
     event.preventDefault();
@@ -33,9 +34,19 @@ function Header(props) {
           </Typography>
         </div>
         <div>
-          <Button variant="outlined" size="small">
-            Sign up
-          </Button>
+          <IconButton>
+            <SearchIcon />
+          </IconButton>
+          {login ? (
+            <Button component={Link} to="/" variant="outlined" size="small" onClick={() => {localStorage.setItem('login', false);
+            window.location.reload();localStorage.setItem('user', 'nouser');}}>
+              Logout
+            </Button>
+          ) : (
+            <Button component={Link} to="/Login" variant="outlined" size="small">
+              Login
+            </Button>
+          )}
         </div>
       </Toolbar>
       <Toolbar
@@ -70,11 +81,21 @@ function Header(props) {
       >
         <Button component={Link} to="/" variant="outlined" size="small" >Home</Button>
         <div style={{ display: 'flex', gap: '8px' }}> {/* Add gap between buttons */}
-          <Button component={Link} to="/create-post/" variant="outlined" size="small">Create</Button>
           {showDeleteButton && (
             <Button onClick={onDelete} variant="outlined" size="small">Delete</Button>
           )}
         </div>
+        {login ? (
+            <Button component={Link} to="/create-post/:sectionId" variant="outlined" size="small">
+              Create
+            </Button>
+          ) : null}
+          <br/>
+          {user=='admin' ? (
+            <Button component={Link} to="/ManageUsers" variant="outlined" size="small" style={ {marginLeft: '10px'}}>
+              Manage Users
+            </Button>
+          ) : null}
       </Toolbar>
 
       <Divider sx={{ width: 'calc(100% - 48px)', marginLeft: '24px' }} />
@@ -94,8 +115,10 @@ Header.propTypes = {
     }),
   ).isRequired,
   title: PropTypes.string.isRequired,
+
   showDeleteButton: PropTypes.bool,
   onDelete: PropTypes.func,
+  login: PropTypes.bool.isRequired,
 };
 
 export default Header;

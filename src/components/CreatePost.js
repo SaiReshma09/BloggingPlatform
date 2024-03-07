@@ -122,6 +122,8 @@ const CreatePost = () => {
               <Button color="inherit" onClick={navigateHome}>Home</Button>
             </>
           }
+          login={localStorage.getItem('login') === 'true'}
+          user={localStorage.getItem('user')}
         />
         <main>
           <div style={formStyle}>
