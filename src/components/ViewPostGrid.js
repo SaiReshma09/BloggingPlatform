@@ -7,6 +7,7 @@ import { Button, Card, CardContent, CardActions, Typography, IconButton } from '
 import DeleteIcon from '@mui/icons-material/Delete';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Footer from './Footer';
+import data from '../data.json'; // Import the data from data.json
 
 const sections = [
   { title: 'Academic Resources', id: 'academic-resources' },
@@ -31,17 +32,9 @@ const ViewPostGrid = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchPostsFromLocalStorage = () => {
-      const localStorageData = localStorage.getItem(sectionId);
-      if (localStorageData) {
-        setPostContent(JSON.parse(localStorageData));
-      } else {
-        setPostContent([]);
-        setError('Data not found in local storage');
-      }
-    };
-
-    fetchPostsFromLocalStorage();
+    // Filter posts based on the selected section
+    const filteredPosts = data.posts.filter(post => post.topic === sectionId);
+    setPostContent(filteredPosts);
   }, [sectionId]);
 
   const handleSectionClick = (id) => {
@@ -57,19 +50,13 @@ const ViewPostGrid = () => {
   };
 
   const handleCardClick = (postId) => {
-    // Check if the key for the post ID is already available in local storage
-    const existingPost = localStorage.getItem(postId);
-    if (existingPost) {
-      console.log(`Post with ID ${postId} already exists in local storage.`);
+    const post = data.posts.find(post => post.id === postId);
+    console.log(post)
+    if (post) {
+      // Navigate to the content page with the post ID as a parameter
+      navigate(`/content/${post.id}`);
     } else {
-      const post = postContent.find((post) => post.id === postId);
-      if (post) {
-        // Create a new entry in local storage with the post ID as the key and the JSON data as the value
-        localStorage.setItem(postId, JSON.stringify(post));
-        console.log(`New entry created in local storage for post with ID ${postId}`);
-      } else {
-        console.error(`Post with ID ${postId} not found`);
-      }
+      console.error(`Post with ID ${postId} not found`);
     }
   };
 

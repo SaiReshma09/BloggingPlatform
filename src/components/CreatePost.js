@@ -32,7 +32,8 @@ const CreatePost = () => {
     topic: '',
     content: '',
     author: '',
-    shortdescription: ''
+    shortdescription: '',
+    replies: []
   });
 
   const handleSectionClick = (id) => {
@@ -48,31 +49,31 @@ const CreatePost = () => {
     setFormData({ ...formData, content });
   };
 
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
-    const { title, topic, content, author, shortdescription } = formData;
+
+
+
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    console.log(formData, "Details")
     const currentDate = new Date();
-    const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`; // Format: YYYY-MM-DD
-    const postData = {
-      id: Date.now(),
-      title,
-      content,
-      author,
-      shortdescription,
-      createdDate: formattedDate
-    };
-    
-    // Retrieve existing data from localStorage
-    let existingData = localStorage.getItem(topic);
-    existingData = existingData ? JSON.parse(existingData) : [];
+    const formattedDate = `${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}-${currentDate.getFullYear()}`; // Format: YYYY-MM-DD
+    const { title, topic, content, author, shortdescription, replies } = formData;
 
-    // Append new post data
-    existingData.push(postData);
+    const response = await fetch('http://localhost:3001/posts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ title, topic, content, author, shortdescription, createdDate: formattedDate, replies: [] }),
+    });
 
-    // Save updated data back to localStorage
-    localStorage.setItem(topic, JSON.stringify(existingData));
-
-    console.log('Data saved successfully');
+    if (response.ok) {
+      console.log('Post added successfully');
+      // Optionally update UI or reset form fields
+    } else {
+      console.error('Failed to add post');
+    }
     navigate('/');
   };
 
@@ -91,9 +92,9 @@ const CreatePost = () => {
       [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
       [{ 'size': [] }],
       ['bold', 'italic', 'underline'],
-      [{ 'color': [] }, { 'background': [] }],          
+      [{ 'color': [] }, { 'background': [] }],
       [{ 'align': [] }],
-      ['clean'],                                        
+      ['clean'],
     ],
   };
 
@@ -126,7 +127,7 @@ const CreatePost = () => {
             <form onSubmit={handleFormSubmit}>
               <div style={centerButtonStyle}>
                 <Typography variant="h4">Create New Post</Typography>
-                </div>
+              </div>
               <TextField
                 name="title"
                 label="Title"
@@ -136,6 +137,7 @@ const CreatePost = () => {
                 margin="normal"
                 required
               />
+
               <FormControl fullWidth margin="normal">
                 <InputLabel id="topic-label">Topic</InputLabel>
                 <Select
@@ -151,6 +153,7 @@ const CreatePost = () => {
                   ))}
                 </Select>
               </FormControl>
+
               <TextField
                 name="author"
                 label="Author"
@@ -179,9 +182,9 @@ const CreatePost = () => {
                 theme="snow"
                 style={editorStyle}
               />
-              <br/>
-              <br/>
-              <br/>
+              <br />
+              <br />
+              <br />
               <div style={centerButtonStyle}>
                 <Button type="submit" variant="contained" color="primary">
                   Create Post

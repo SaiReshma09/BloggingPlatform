@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Container, Typography, Button, TextField, List, ListItem, ListItemText } from '@mui/material';
 import Header from './Header';
 import CssBaseline from '@mui/material/CssBaseline';
+import Container from '@mui/material/Container';
+import { Typography, TextField, Button } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Footer from './Footer';
+import data from '../data.json'; // Import the data from data.json
 import Divider from '@mui/material/Divider';
 
 const sections = [
@@ -27,27 +29,55 @@ const Content = () => {
   const { postId } = useParams();
   const [post, setPost] = useState(null);
   const [replyContent, setReplyContent] = useState('');
-  const [replies, setReplies] = useState(() => {
-    const storedReplies = localStorage.getItem(`replies-${postId}`);
-    return storedReplies ? JSON.parse(storedReplies) : [];
-  });
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    title: '',
+    topic: '',
+    content: '',
+    author: '',
+    shortdescription: '',
+    replies: []
+  });
 
   useEffect(() => {
-    const fetchPostFromLocalStorage = () => {
-      const localStorageData = localStorage.getItem(postId);
-      if (localStorageData) {
-        const postData = JSON.parse(localStorageData);
-        setPost(postData);
-      } else {
-        // Handle case when post data is not found in local storage
-        navigate('/');
-      }
-    };
-
-    fetchPostFromLocalStorage();
+    // Find the post with the provided postId
+    const foundPost = data.posts.find(post => post.id === postId);
+    if (foundPost) {
+      // Set the post if found
+      setPost(foundPost);
+    } else {
+      // Navigate back to home page if postId is not found
+      navigate('/');
+    }
   }, [postId, navigate]);
 
+  const handleReplyChange = (event) => {
+    setReplyContent(event.target.value);
+  };
+
+  const handleSubmitReply = async (e) => {
+    e.preventDefault();
+    
+    const updatedReplies = [...post.replies, replyContent]; // Add the new reply to the existing replies
+    
+    const response = await fetch(`http://localhost:3001/posts/${postId}`, {
+      method: 'PATCH', // Use PATCH method for partial updates
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ replies: updatedReplies }), // Send updated replies array in the request body
+    });
+  
+    if (response.ok) {
+      console.log('Reply submitted successfully');
+      // Optionally update UI or reset form fields
+      setPost({ ...post, replies: updatedReplies }); // Update the local state with the updated replies
+      setReplyContent(''); // Reset the reply content
+    } else {
+      console.error('Failed to submit reply');
+    }
+  };
+  
   const handleSectionClick = (id) => {
     navigate(`/view-post-grid/${id}`);
   };
@@ -64,22 +94,6 @@ const Content = () => {
     // Logic to delete post goes here
     console.log('Post deleted');
   };
-
-  const handleReplyChange = (event) => {
-    setReplyContent(event.target.value);
-  };
-
-  const handleSubmitReply = (event) => {
-    event.preventDefault();
-    console.log('Reply submitted:', replyContent);
-    setReplies([...replies, replyContent]);
-    setReplyContent('');
-  };
-
-  useEffect(() => {
-    // Update local storage when replies change
-    localStorage.setItem(`replies-${postId}`, JSON.stringify(replies));
-  }, [replies, postId]);
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -100,54 +114,62 @@ const Content = () => {
           showDeleteButton={true} // Pass showDeleteButton prop
           onDelete={handleDeletePost} // Pass onDelete prop with the delete function
         />
-
-        <Container maxWidth="lg">
-          {post && (
+        <main>
+          {post ? (
             <>
-              <Typography variant="h4">{post.title}</Typography>
-              <Typography variant="body2" color="textSecondary" gutterBottom>{post.author}</Typography>
-              <Typography variant="body2" color="textSecondary" gutterBottom>{post.createdDate}</Typography>
-              <br />
-              <br />
-              <Typography variant="body1" dangerouslySetInnerHTML={{ __html: post.content }} style={{ textAlign: 'justify' }} />
+
+              {/* Post content and reply section container */}
+              <div style={{ marginLeft: '24px', width: 'calc(100% - 48px)' }}>
+                <Typography variant="h4">{post.title}</Typography>
+                <Typography variant="body2" color="textSecondary" gutterBottom>{post.author}</Typography>
+                <Typography variant="body2" color="textSecondary" gutterBottom>{post.createdDate}</Typography>
+                <br/>
+                <br/>
+                {/* Post content */}
+                <div>
+                  {/* Render HTML content using dangerouslySetInnerHTML */}
+                  <Typography variant="body1" dangerouslySetInnerHTML={{ __html: post.content }} style={{ textAlign: 'justify' }}/>
+                </div>
+
+                {/* Reply section */}
+                <Divider sx={{ width: '100%', marginTop: '24px' }} />
+                <div style={{ marginTop: '24px' }}>
+                  <Typography variant="h5">Reply</Typography>
+                  <form onSubmit={handleSubmitReply}>
+                    <TextField
+                      id="reply-content"
+                      label="Your Reply"
+                      multiline
+                      fullWidth
+                      value={replyContent}
+                      onChange={handleReplyChange}
+                      variant="outlined"
+                      margin="normal"
+                    />
+                    <Button type="submit" variant="contained" color="primary">
+                      Submit Reply
+                    </Button>
+                  </form>
+
+                  {/* List of Replies */}
+                  <Typography variant="h5" style={{ marginTop: '24px' }}>Replies</Typography>
+                  <ul>
+                    {post.replies.map((reply, index) => (
+                      <li key={index}>{reply}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
             </>
+          ) : (
+            <Typography variant="body1">Post with ID {postId} is invalid.</Typography>
           )}
-
-          <Divider sx={{ width: 'calc(100% - 48px)', marginLeft: '24px', marginTop: '24px' }} />
-
-          {/* Reply Section */}
-          <Typography variant="h5" style={{ marginTop: '24px' }}>Reply</Typography>
-          <form onSubmit={handleSubmitReply}>
-            <TextField
-              id="reply-content"
-              label="Your Reply"
-              multiline
-              fullWidth
-              value={replyContent}
-              onChange={handleReplyChange}
-              variant="outlined"
-              margin="normal"
-            />
-            <Button type="submit" variant="contained" color="primary">
-              Submit Reply
-            </Button>
-          </form>
-
-          {/* List of Replies */}
-          <Typography variant="h5" style={{ marginTop: '24px' }}>Replies</Typography>
-          <List>
-            {replies.map((reply, index) => (
-              <ListItem key={index}>
-                <ListItemText primary={reply} />
-              </ListItem>
-            ))}
-          </List>
-        </Container>
+        </main>
+        <Footer
+          title="Footer"
+          description="Something here to give the footer a purpose!"
+        />
       </Container>
-      <Footer
-        title="Footer"
-        description="Something here to give the footer a purpose!"
-      />
     </ThemeProvider>
   );
 };
