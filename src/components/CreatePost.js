@@ -124,8 +124,6 @@ const CreatePost = () => {
         <main>
           <div style={formStyle}>
             <form onSubmit={handleFormSubmit}>
-              <br/>
-              <br/>
               <div style={centerButtonStyle}>
                 <Typography variant="h4">Create New Post</Typography>
                 </div>

@@ -83,8 +83,6 @@ const Content = () => {
         <Container maxWidth="lg">
           {post && (
             <>
-              <br />
-              <br />
               <Typography variant="h4">{post.title}</Typography>
               <Typography variant="body2" color="textSecondary" gutterBottom>{post.author}</Typography>
               <Typography variant="body2" color="textSecondary" gutterBottom>{post.createdDate}</Typography>

@@ -70,6 +70,8 @@ function Header(props) {
         )}
       </Toolbar>
       <Divider sx={{ width: 'calc(100% - 48px)', marginLeft: '24px' }} />
+      <br/>
+      <br/>
     </React.Fragment>
   );
 }
