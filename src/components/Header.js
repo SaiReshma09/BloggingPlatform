@@ -5,7 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-
+import IconButton from '@mui/material/IconButton';
 function Header(props) {
   const { sections, title, login, user, showDeleteButton, onDelete } = props;
   console.log(user)

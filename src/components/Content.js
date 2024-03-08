@@ -41,6 +41,15 @@ const Content = () => {
     replies: []
   });
 
+  const user=localStorage.getItem('user');
+  var isuser = false;
+  if(user=='ytuig')
+  {
+    isuser=true;
+  } else{
+    isuser=false;
+  }
+
   useEffect(() => {
     // Find the post with the provided postId
     const foundPost = data.posts.find(post => post.id === postId);
@@ -128,13 +137,15 @@ const Content = () => {
             ...section,
             onClick: () => handleSectionClick(section.id),
           }))}
+          login={localStorage.getItem('login') === 'true'}
+          user={localStorage.getItem('user')}
           extra={
             <>
               <Button color="inherit" onClick={navigateHome}>Home</Button>
               <Button color="inherit" onClick={navigateToCreatePost}>Create</Button>
             </>
           }
-          showDeleteButton={true} // Pass showDeleteButton prop
+          showDeleteButton={isuser} // Pass showDeleteButton prop
           onDelete={handleDeletePost} // Pass onDelete prop with the delete function
         />
         <main>
