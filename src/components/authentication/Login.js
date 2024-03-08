@@ -45,14 +45,15 @@ function Login() {
     if(foundUser){
       if(foundUser.enabled){
     
-          if (username === 'moderator' && password === 'mpass') {
+          if (username === 'ytuig' && password === 'mpass') {
             // If correct, grant access and redirect to blog page
             localStorage.setItem('ytuig', 'moderator');
+            localStorage.setItem('user', 'ytuig');
             localStorage.setItem('login', true);
             navigate('/'); // Redirect to the blog page
           } else if (username === 'kpatel169' && password === 'spass') {
             // If correct, grant access and redirect to blog page
-            localStorage.setItem('user', 'student');
+            localStorage.setItem('user', 'kpatel169');
             localStorage.setItem('login', true);
             navigate('/'); // Redirect to the blog page
           } else {

@@ -30,6 +30,7 @@ const ViewPostGrid = () => {
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [postIdToDelete, setPostIdToDelete] = useState(null);
+  const user= localStorage.getItem('user')
 
   // Define sections state and setter
   const [sections, setSections] = useState([
@@ -108,7 +109,10 @@ const ViewPostGrid = () => {
           sections={sections.map((section) => ({
             ...section,
             onClick: () => handleSectionClick(section.id),
+            
           }))}
+          login={localStorage.getItem('login') === 'true'}
+          user={localStorage.getItem('user')}
           extra={
             <>
               <Button color="inherit" onClick={navigateHome}>Home</Button>
@@ -138,9 +142,11 @@ const ViewPostGrid = () => {
                   </CardContent>
                 </Link>
                 <CardActions style={{ position: 'absolute', top: '5px', right: '5px' }}>
+                {user=='ytuig' ? (
                   <IconButton aria-label="delete" onClick={() => handleDelete(post.id)}>
-                    <DeleteIcon />
-                  </IconButton>
+                  <DeleteIcon />
+                </IconButton>
+                  ) : null}
                 </CardActions>
               </Card>
             ))
