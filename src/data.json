@@ -8,7 +8,16 @@
       "author": "Arpit Singhal",
       "shortdescription": "The \"Era of Smartphone\" blog post explores the transformative impact of smartphones on modern society. From their evolution since the introduction of the iPhone in 2007 to their profound influence on communication, work, and access to information, the article highlights both the benefits and challenges associated with smartphone technology. It also discusses future trends such as AI, AR, and 5G connectivity, showcasing the ongoing innovation in the smartphone industry and its implications for the future.",
       "createdDate": "03-07-2024",
-      "replies": []
+      "replies": [
+        {
+          "content": "Great insights!",
+          "user": "John"
+        },
+        {
+          "content": "Informative post!",
+          "user": "Emma"
+        }
+      ]
     },
     {
       "id": "567e",
@@ -21,6 +30,31 @@
       "replies": [
         "The post is little small"
       ]
+    },
+    {
+      "id": "56yu",
+      "title": "Exploring Academic Support Services",
+      "topic": "academic-resources",
+      "content": "<h1 class=\"ql-align-justify\">Exploring Academic Support Services</h1><p class=\"ql-align-justify\"><br></p><p class=\"ql-align-justify\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet accumsan justo. Nullam euismod, ante at fringilla malesuada, dolor lectus tempor turpis, id scelerisque risus velit et ipsum. Sed pellentesque nisl vitae mi tincidunt, at varius justo blandit.</p>",
+      "author": "Emma Watson",
+      "shortdescription": "This post provides an overview of academic support services available to students, including tutoring, writing centers, and academic advising, highlighting their role in enhancing learning outcomes and academic success.",
+      "createdDate": "03-02-2024",
+      "replies": [
+        {
+          "content": "Check if Reply Works or not",
+          "user": "Kishan"
+        }
+      ]
+    },
+    {
+      "id": "78tg",
+      "title": "The Importance of Research Opportunities",
+      "topic": "academic-resources",
+      "content": "<h1 class=\"ql-align-justify\">The Importance of Research Opportunities</h1><p class=\"ql-align-justify\"><br></p><p class=\"ql-align-justify\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet accumsan justo. Nullam euismod, ante at fringilla malesuada, dolor lectus tempor turpis, id scelerisque risus velit et ipsum. Sed pellentesque nisl vitae mi tincidunt, at varius justo blandit.</p>",
+      "author": "Michael Johnson",
+      "shortdescription": "This post highlights the value of research opportunities for students, from undergraduate research programs to internships and collaborative projects, fostering critical thinking, creativity, and academic exploration.",
+      "createdDate": "02-15-2024",
+      "replies": []
     },
     {
       "id": "90sd",
@@ -140,7 +174,20 @@
       "author": "James Smith",
       "shortdescription": "This post discusses initiatives and programs aimed at promoting cultural awareness and sensitivity on campus, including diversity workshops, cultural competency training, and intercultural dialogue events, fostering a more inclusive and respectful campus community.",
       "createdDate": "01-15-2024",
-      "replies": []
+      "replies": [
+        {
+          "content": "Great insights!",
+          "user": "John"
+        },
+        {
+          "content": "Nice post!",
+          "user": "Sophia"
+        },
+        {
+          "content": "Informative!",
+          "user": "Michael"
+        }
+      ]
     },
     {
       "id": "90oi",
@@ -180,7 +227,16 @@
       "author": "Emma Johnson",
       "shortdescription": "This post highlights cultural festivals and events within local communities, from music festivals and food fairs to art exhibitions and heritage celebrations, fostering community pride and cultural exchange.",
       "createdDate": "01-30-2024",
-      "replies": []
+      "replies": [
+        {
+          "content": "Great insights!",
+          "user": "John"
+        },
+        {
+          "content": "Nice post!",
+          "user": "Sophia"
+        }
+      ]
     },
     {
       "id": "90dr",
@@ -240,7 +296,12 @@
       "author": "Sophia Johnson",
       "shortdescription": "This post highlights various sports clubs and intramural teams available to students, promoting physical activity, teamwork, and camaraderie through participation in organized sports leagues and competitions.",
       "createdDate": "01-20-2024",
-      "replies": []
+      "replies": [
+        {
+          "content": "Great insights!",
+          "user": "John"
+        }
+      ]
     },
     {
       "id": "90ki",
@@ -260,6 +321,16 @@
       "author": "James Smith",
       "shortdescription": "This post explores fitness facilities and recreation centers available to students, from state-of-the-art gyms and swimming pools to outdoor tracks and sports fields, promoting physical activity and well-being on campus.",
       "createdDate": "03-01-2024",
+      "replies": []
+    },
+    {
+      "id": "34vc",
+      "title": "Exploring Alumni Networks",
+      "topic": "alumni",
+      "content": "<h1 class=\"ql-align-justify\">Exploring Alumni Networks</h1><p class=\"ql-align-justify\"><br></p><p class=\"ql-align-justify\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet accumsan justo. Nullam euismod, ante at fringilla malesuada, dolor lectus tempor turpis, id scelerisque risus velit et ipsum. Sed pellentesque nisl vitae mi tincidunt, at varius justo blandit.</p>",
+      "author": "Sophie Wilson",
+      "shortdescription": "This post explores the benefits of alumni networks and connections for current students, from mentorship opportunities and career advice to networking events and professional development resources, facilitating post-graduation success and community engagement.",
+      "createdDate": "02-15-2024",
       "replies": []
     },
     {
