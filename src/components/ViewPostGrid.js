@@ -103,9 +103,9 @@ const ViewPostGrid = () => {
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <Container maxWidth="lg">
+      <Container maxWidth="true">
         <Header
-          title="Blog"
+          //title="Blog"
           sections={sections.map((section) => ({
             ...section,
             onClick: () => handleSectionClick(section.id),
@@ -142,7 +142,7 @@ const ViewPostGrid = () => {
                   </CardContent>
                 </Link>
                 <CardActions style={{ position: 'absolute', top: '5px', right: '5px' }}>
-                {user=='ytuig' ? (
+                {user==='kevin' ? (
                   <IconButton aria-label="delete" onClick={() => handleDelete(post.id)}>
                   <DeleteIcon />
                 </IconButton>

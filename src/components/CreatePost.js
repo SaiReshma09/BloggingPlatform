@@ -110,9 +110,9 @@ const CreatePost = () => {
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <Container maxWidth="lg">
+      <Container maxWidth="true">
         <Header
-          title="Blog"
+          //title="Blog"
           sections={sections.map((section) => ({
             ...section,
             onClick: () => handleSectionClick(section.id),
